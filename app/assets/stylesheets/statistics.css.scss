@@ -1,0 +1,51 @@
+// Place all the styles related to the statistics controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.statistics {
+	/* css for timepicker */
+	.ui-timepicker-div { 
+		.ui-widget-header { margin-bottom: 8px; }
+		dl { text-align: left; }
+		dl dt { height: 25px; }
+		dl dd { margin: -25px 0 10px 65px; }
+		td { font-size: 90%; }
+	}
+
+	.graph_container {
+		position: relative;
+
+		img, .arrow_container {
+			float: left;
+		}
+	}
+
+	.arrow {
+		width: 25px;
+		height: 30px;
+		display: block;
+		border: 0px;
+		cursor: pointer;
+		margin: 0.5em;
+		padding:0;
+		background: url('/images/arrows.png') 0 0 no-repeat;
+
+		&.left_half {
+			background-position: -188px -44px;
+		}
+
+		&.right_half {
+			background-position: -219px -44px;
+		}
+
+		&.left {
+			background-position: -153px -10px;
+			height: 20px;
+		}
+
+		&.right {
+			background-position: -46px -10px;
+			height: 20px;
+		}
+	}
+}

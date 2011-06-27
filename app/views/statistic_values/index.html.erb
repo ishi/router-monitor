@@ -1,0 +1,25 @@
+<h1>Lista monitorowanych wartości</h1>
+
+<table>
+  <tr>
+    <th>Nazwa zmiennej</th>
+    <th>Nazwa wyświetlana</th>
+    <th>Interwał</th>
+    <!-- th></th -->
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @statistic_values.each do |statistic_value| %>
+  <tr>
+    <td><%= statistic_value.name %></td>
+    <td><%= statistic_value.print_name %></td>
+    <td><%= statistic_value.interval %></td>
+	<!-- td><%= link_to 'Show', statistic_value %></td -->
+    <td><%= link_to 'Edytuj', edit_statistic_value_path(statistic_value) %></td>
+    <td><%= link_to 'Usuń', statistic_value, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

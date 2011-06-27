@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @statistic_value.name %>
+</p>
+
+<p>
+  <b>Print name:</b>
+  <%= @statistic_value.print_name %>
+</p>
+
+<p>
+  <b>Interval:</b>
+  <%= @statistic_value.interval %>
+</p>
+
+<p>
+  <b>Script:</b>
+  <%= @statistic_value.script %>
+</p>
+
+
+<%= link_to 'Edit', edit_statistic_value_path(@statistic_value) %> |
+<%= link_to 'Back', statistic_values_path %>

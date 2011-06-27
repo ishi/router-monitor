@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RouterMonitor</title>
+		<%= stylesheet_link_tag    "application" %>
+		<%= stylesheet_link_tag    "themes/ui-lightness/jquery-ui-1.8.13.custom.css" %>
+		<%= javascript_include_tag "application" %>
+		<%= yield :javascript_include %>
+		<%= csrf_meta_tags %>
+		<script >
+			$(function() {
+				$( "#accordion" ).accordion();
+			});
+		</script>
+	</head>
+	<body class="<%= controller.controller_name -%>">
+
+		<div id="menu">
+			<div id="accordion">
+				<h3><a href="#">Statystyki</a></h3>
+				<div>
+					<ul>
+						<li><%= link_to "Generacja wykresów", statistics_path %></li>
+						<li><%= link_to "Lista wartości", statistic_values_path %></li>
+						<li><%= link_to "Dodaj nową wartość", new_statistic_value_path %></li>
+						<li><%= link_to "Logi skryptów", statistics_log_path %></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="page-content">
+			<%= yield %>
+		</div>
+
+	</body>
+</html>

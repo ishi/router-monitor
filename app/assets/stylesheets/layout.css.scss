@@ -1,0 +1,19 @@
+$left-size: 17em;
+
+body {
+	padding: 1em;
+}
+
+#menu {
+	float: left;
+	width: $left-size;
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+#page-content {
+	margin-left: $left-size + 3;
+}
