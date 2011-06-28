@@ -3,9 +3,8 @@
 	<head>
 		<title>RouterMonitor</title>
 		<%= stylesheet_link_tag    "application" %>
-		<%= stylesheet_link_tag    "themes/ui-lightness/jquery-ui-1.8.13.custom.css" %>
+		<%= stylesheet_link_tag    "/themes/ui-lightness/jquery-ui-1.8.13.custom.css" %>
 		<%= javascript_include_tag "application" %>
-		<%= yield :javascript_include %>
 		<%= csrf_meta_tags %>
 		<script >
 			$(function() {
@@ -28,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="page-content">
+		<div id="page-content" class="ui-helper-clearfix">
 			<%= yield %>
 		</div>
 

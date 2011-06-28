@@ -12,11 +12,15 @@ body.statistics {
 		td { font-size: 90%; }
 	}
 
-	.graph_container {
+	.graph-container {
 		position: relative;
 
-		img, .arrow_container {
+		img, .arrow-container {
 			float: left;
+		}
+
+		img.graph {
+			width: 90%;
 		}
 	}
 
@@ -30,11 +34,11 @@ body.statistics {
 		padding:0;
 		background: url('/images/arrows.png') 0 0 no-repeat;
 
-		&.left_half {
+		&.left-half {
 			background-position: -188px -44px;
 		}
 
-		&.right_half {
+		&.right-half {
 			background-position: -219px -44px;
 		}
 
