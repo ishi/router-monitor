@@ -19,7 +19,7 @@ end
 logfile = File.open("#{Rails.root}/log/cron.log", 'a')
 logfile.sync = true
 Rails.logger = CRON::CronLogger.new(logfile)
-Rails.logger.level = Logger::DEBUG if 'development' == Rails.env
+Rails.logger.level = Logger::INFO unless 'development' == Rails.env
 
 Rails.logger.debug "Uruchamiam server w środowisu #{Rails.env}"
 
