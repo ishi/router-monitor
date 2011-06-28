@@ -23,6 +23,7 @@ class StatisticsController < ApplicationController
 		end
 
 		@file = create_filename(params)
+		puts "Generowany plik: #{@file}"
 		dir = stats_dir
 		elements = params[:el]
 		RRD.graph File.join(charts_dir, @file), graph_params(params) do
@@ -46,7 +47,7 @@ class StatisticsController < ApplicationController
 	end
 
 	def create_filename (params)
-		"#{params[:date_from].gsub(/[ :.]/, "")}_#{params[:date_to].gsub(/[ :.]/, "")}_cpu.png"
+		"#{params[:date_from].gsub(/[ :.]/, "")}_#{params[:date_to].gsub(/[ :.]/, "")}_#{params[:el].select { |k, e| e[:value] }.keys.join '_' }.png"
 	end
 
 	def graph_params(params)
