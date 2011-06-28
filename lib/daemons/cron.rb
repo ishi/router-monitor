@@ -49,7 +49,7 @@ module CRON
 				Rails.logger.debug "[TASK] Dodaje wartość #{ value } do bazy rrd"
 				@job.update_rrd value
 			end
-		rescue => e
+		rescue Exception => e
 			Rails.logger.error "Wyjątek podczas wykonywania skryptu #{@job.name}: #{e}"
 		end
 	end

@@ -23,7 +23,6 @@ class StatisticsController < ApplicationController
 		end
 
 		@file = create_filename(params)
-		puts "Generowany plik: #{@file}"
 		dir = stats_dir
 		elements = params[:el]
 		RRD.graph File.join(charts_dir, @file), graph_params(params) do
