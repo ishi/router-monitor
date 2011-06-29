@@ -46,7 +46,10 @@ class StatisticsController < ApplicationController
 	end
 
 	def create_filename (params)
-		"#{params[:date_from].gsub(/[ :.]/, "")}_#{params[:date_to].gsub(/[ :.]/, "")}_#{params[:el].select { |k, e| e[:value] }.keys.join '_' }.png"
+		from = params[:date_from].gsub(/[ :.]/, "")
+		to = params[:date_to].gsub(/[ :.]/, "")
+		elements = params[:el].collect { |k, e| "#{e[:value]}_#{e[:color].gsub(/#/, '')}" if e[:value] }.compact.join '_'
+		"#{from}_#{to}_#{elements}.png"
 	end
 
 	def graph_params(params)
