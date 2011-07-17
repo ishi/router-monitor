@@ -1,19 +1,46 @@
-<%= render 'dateform'%>
+<% javascript_include "jquery-ui-timepicker-addon" %>
+<script>
+	$(function() {
+		$('[id^="date_"]').datetimepicker({
+			dateFormat: 'dd.mm.yy',
+			onClose: function(dateText, inst) { $(this).parent('form').get(0).submit(); }
+		});
+	});
+</script>
 
-<div class="graph-container ui-helper-clearfix">
-  <%= form_tag statistics_generate_url do %>
-	<%= hidden_field_tag :date_from, params[:date_from] %>
-	<%= hidden_field_tag :date_to, params[:date_to] %>
+<!-- %= @rrd.info.to_s % -->
 
+<%= form_tag statistics_generate_url do %>
+	<%= label_tag :date_from, "Data od:" %>
+	<%= text_field_tag :date_from, params[:date_from] %>
 	<br />
-	<div class="arrow-container">
-	  <%= submit_tag '', :name => 'offset[left][half]', :class => 'left-half arrow' %>
-	  <%= submit_tag '', :name => 'offset[left][full]', :class => 'left arrow' %>
-	</div>
-	<%= image_tag "/charts/#{@file}", :class => 'graph' %>
-	<div class="arrow-container">
-	  <%= submit_tag '', :name => 'offset[right][half]', :class => 'right-half arrow' %>
-	  <%= submit_tag '', :name => 'offset[right][full]', :class => 'right arrow' %>
-	</div>
-  <% end %>
-</div>
+	<%= label_tag :date_from, "Data do:" %>
+	<%= text_field_tag :date_to, params[:date_to] %>
+	<br />
+	<br />
+	<% @values.each do |v|
+		el =  params[:el].try(:[], :"#{v.id}") -%>
+		<%= check_box_tag :"el[#{v.id}][value]", v.id, el.try(:[], :value) %>
+		<%= label_tag :"el[#{v.id}][value]", v.print_name %>
+		<%= text_field_tag :"el[#{v.id}][color]", el.try(:[], :color) || ("#%06x" % (rand * 0xffffff)).upcase, :size => 6 %>
+		<br />
+	<% end -%>
+	<br />
+	<br />
+	<%= submit_tag "Generuj" %>
+
+	<% if @file -%>
+		<div class="graph-container ui-helper-clearfix">
+			<br />
+			<div class="arrow-container">
+				<%= submit_tag '', :name => 'offset[left][half]', :class => 'left-half arrow' %>
+				<%= submit_tag '', :name => 'offset[left][full]', :class => 'left arrow' %>
+			</div>
+			<%= image_tag "/charts/#{@file}", :class => 'graph' %>
+			<div class="arrow-container">
+				<%= submit_tag '', :name => 'offset[right][half]', :class => 'right-half arrow' %>
+				<%= submit_tag '', :name => 'offset[right][full]', :class => 'right arrow' %>
+			</div>
+		</div>
+	<% end -%>
+<% end %>

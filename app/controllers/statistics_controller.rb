@@ -6,6 +6,7 @@ class StatisticsController < ApplicationController
 	def index
 		params[:date_from] = (Time.new - 1.day).strftime("%d.%m.%Y %H:%M")
 		params[:date_to] = Time.new.strftime("%d.%m.%Y %H:%M")
+		render :generate
 	end
 
 	def generate
