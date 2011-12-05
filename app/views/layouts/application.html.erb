@@ -3,33 +3,63 @@
 	<head>
 		<title>RouterMonitor</title>
 		<%= stylesheet_link_tag    "application" %>
-		<%= stylesheet_link_tag    "/themes/ui-lightness/jquery-ui-1.8.13.custom.css" %>
+		<%= stylesheet_link_tag    "/assets/cupertino/jquery-ui.css" %>
+		<%= stylesheet_link_tag    "/assets/jquery-config-editor.css" %>
 		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "/assets/mclexer.js" %>
+		<%= javascript_include_tag "/assets/jquery-config-editor.js" %>
 		<%= csrf_meta_tags %>
 		<script >
 			$(function() {
-				$( "#accordion" ).accordion();
+				$("#menu").accordion();
+				$('.button').button();
 			});
+
 		</script>
 	</head>
 	<body class="<%= controller.controller_name -%>">
-
+		<% if flash[:notice] %>
+      		<p class="notice"><%= flash[:notice] %></p>
+    	<% end %>
+    	<% if flash[:error] %>
+      		<p class="error"><%= flash[:error] %></p>
+    	<% end %>
+    	<% if flash[:alert] %>
+      		<p class="error"><%= flash[:alert] %></p>
+    	<% end %>
 		<div id="menu">
-			<div id="accordion">
-				<h3><a href="#">Statystyki</a></h3>
-				<div>
-					<ul>
-						<li><%= link_to "Generacja wykresów", statistics_path %></li>
-						<li><%= link_to "Lista wartości", statistic_values_path %></li>
-						<li><%= link_to "Dodaj nową wartość", new_statistic_value_path %></li>
-						<li><%= link_to "Logi skryptów", statistics_log_path %></li>
-					</ul>
-				</div>
+			
+			<h3><a href="/">Dashboard</a></h3><div></div>
+			<h3><a href="#">Ustawienia Systemu</a></h3><div></div>
+			<h3><a href="#">Ustawienia Sieci</a></h3>
+			<div>
+				<ul>
+					<li>
+						<%= link_to "Interfejsy Sieciowe", edit_editor_path(:interfaces) %>
+					</li>
+				</ul>
 			</div>
+			<h3><a href="#">Statystyki</a></h3>
+			<div>
+				<ul>
+					<li>
+						<%= link_to "Generacja wykresów", statistics_path %>
+					</li>
+					<li>
+						<%= link_to "Lista itemów", statistic_values_path %>
+					</li>
+					<li>
+						<%= link_to "Dodaj nowy item", new_statistic_value_path %>
+					</li>
+					<li>
+						<%= link_to "Logi skryptów", statistics_log_path %>
+					</li>
+				</ul>
+			</div>
+		</div>
 		</div>
 		<div id="page-content" class="ui-helper-clearfix">
 			<%= yield %>
 		</div>
-
 	</body>
 </html>

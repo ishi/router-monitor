@@ -2,6 +2,11 @@
 require 'rrd'
 
 class StatisticValue < ActiveRecord::Base
+	validates :print_name, :script, :presence => { :message => "nie może być puste" }
+	validates :name, :uniqueness => true
+	validates :interval, :numericality => { :only_integer => true, :greater_than => 0, :message => "musi być więkrze od 0" }
+	
+	before_validation :create_value_name 
 	after_create :create_rrd_base
 	after_update :update_rrd_base
 	before_destroy :remove_rrd_base
@@ -11,6 +16,10 @@ class StatisticValue < ActiveRecord::Base
 	end
 
 	private
+	
+	def create_value_name
+	  self.name = self.print_name.downcase.gsub(/[^a-zA-Z0-9]/, '-')
+	end
 
 	def rrd
 		@rrd ||= lambda {
@@ -41,9 +50,11 @@ class StatisticValue < ActiveRecord::Base
 	end
 
 	def remove_rrd_base
-		Rails.logger.info "Usówam bazę danych #{file_name}"
+		Rails.logger.info "Usówam bazę danych rrd #{file_name}"
 		File.unlink(file_name)
-	end
+  rescue => e
+    Rails.logger.error "Nie udane usunięcie bazy danych rrd #{file_name} " + e.message
+  end
 
 	def file_name
 		@fiel_name ||= File.join(Rails.root, 'tmp', 'rrd', "#{self.name}.rrd")

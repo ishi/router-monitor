@@ -1,25 +1,26 @@
-<h1>Lista monitorowanych wartości</h1>
-
-<table>
+<table class="data-list">
   <tr>
+  	<th>Lp</th>
+    <th>Nazwa</th>
     <th>Nazwa zmiennej</th>
-    <th>Nazwa wyświetlana</th>
     <th>Interwał</th>
-    <!-- th></th -->
-    <th></th>
     <th></th>
   </tr>
 
-<% @statistic_values.each do |statistic_value| %>
+<% @statistic_values.each_with_index do |statistic_value, index| %>
   <tr>
-    <td><%= statistic_value.name %></td>
-    <td><%= statistic_value.print_name %></td>
-    <td><%= statistic_value.interval %></td>
+  	<td class="id"><%= index %></td>
+    <td class="item-list-column-long"><%= statistic_value.print_name %></td>
+    <td class="item-list-column"><%= statistic_value.name %></td>
+    <td class="item-list-column"><%= statistic_value.interval %></td>
 	<!-- td><%= link_to 'Show', statistic_value %></td -->
-    <td><%= link_to 'Edytuj', edit_statistic_value_path(statistic_value) %></td>
-    <td><%= link_to 'Usuń', statistic_value, confirm: 'Are you sure?', method: :delete %></td>
+    <td>
+    	<%= link_to image_tag('edit-icon.png'), edit_statistic_value_path(statistic_value) %>
+    	<%= link_to image_tag('delete-icon.png'), statistic_value, confirm: 'Are you sure?', method: :delete %>
+    </td>
   </tr>
 <% end %>
 </table>
+<%= link_to 'Dodaj nowy item', new_statistic_value_path, :class => "button"%>
 
 <br />

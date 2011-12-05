@@ -2,6 +2,10 @@ $left-size: 17em;
 
 body {
 	padding: 1em;
+	font-family: Arial, Helvetica, sans-serif;
+  color: #3a4f54;
+  background-color: #dfecf1;
+  font-size: small;
 }
 
 #menu {
@@ -12,8 +16,139 @@ body {
 		margin: 0;
 		padding: 0;
 	}
+	
+  & > h3 {
+    margin-top: .5em;
+    padding: .5em;
+  }
+
+  & > div {
+    margin-top: -.4em;
+    padding: .2em;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li, li a {
+    display: block;
+  }
+
+  li a {
+    padding-left: 1em;
+  }
+  
+  &.ui-accordion .ui-accordion-header a {
+    font-size: 1em;
+    padding: 0;
+    padding-left: 1.1em;
+  }
 }
 
+a {
+  color: #e33b06;
+}
+
+table {
+  empty-cells: show;
+
+  td {
+    vertical-align: top;
+    padding-bottom: 8px;
+    font-size: small;
+  }
+}
+
+.ui-helper-left {
+  float: left;
+}
+
+.ui-helper-right {
+  float: right;
+}
+
+#busyImage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+#message-panel {
+  position: absolute;
+  margin: auto;
+  width: 30em;
+  top: 0;
+  left: 50%;
+
+  .ui-widget {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ui-message {
+    display: block;
+    padding: .5em;
+    text-align: center;
+  }
+}
+
+
+
 #page-content {
-	margin-left: $left-size + 3;
+  padding: 1em;
+  margin-left: $left-size + 3;
+
+  .ui-button {
+    margin: .5em;
+    
+    .ui-button-text {
+      padding: .3em 1em;
+    }
+  }
+  
+  input.ui-button {
+    padding: .4em 1em;
+  }
+
+  .data-list {
+    border-collapse: collapse;
+    
+    .ui-button {
+      margin: 0em;
+    }
+
+    th {
+      border-bottom: 1px solid black;
+      text-align: left;
+      padding: .5em;
+    }
+
+    td {
+      padding: .5em;
+    }
+  
+    .id {
+      width: 2em;
+    }
+  
+    .item-list-column {
+      width: 9em;
+    }
+  
+    .item-list-column-long {
+      width: 20em;
+    }
+  }
+  
+  .button {
+    &.action {
+      float: left;
+    }
+    
+    &.less-important {
+      
+    }
+  }
 }

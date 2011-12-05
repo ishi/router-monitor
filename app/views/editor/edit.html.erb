@@ -1,0 +1,9 @@
+<%= form_tag editor_path(@type), :method => "put"  do %>
+	<%= text_area_tag(:'conf-editor', @content, :size => "24x6") %>
+<% end %>
+
+<script type="text/javascript">
+	$(function () {
+		$("#conf-editor").confeditor();
+	})
+</script>

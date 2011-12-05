@@ -1,10 +1,16 @@
 RouterMonitor::Application.routes.draw do
-  scope "/statistics" do
-	resources :statistic_values, :path => "values"
+  
+  scope "/editor" do
+    get "/:type" => 'editor#edit', :as => :edit_editor
+    put "/:type" => 'editor#update', :as => :editor
+  end
 
-	match '/' => 'statistics#index', :as => :statistics
-	match '/generate' => 'statistics#generate', :as => :statistics_generate
-	match '/log' => 'statistics#log', :as => :statistics_log
+  scope "/statistics" do
+  	resources :statistic_values, :path => "values"
+  
+  	match '/' => 'statistics#index', :as => :statistics
+  	match '/generate' => 'statistics#generate', :as => :statistics_generate
+  	match '/log' => 'statistics#log', :as => :statistics_log
   end
 
 
