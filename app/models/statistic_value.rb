@@ -36,12 +36,12 @@ class StatisticValue < ActiveRecord::Base
 		step = interval.to_i
 		name = self.name
 		
-		rrd.create :start => Time.now, :step => step.minutes do
-			datasource name, :type => :gauge, :heartbeat => (step * 2).minutes
-			archive :average, :every => step.minutes, :during => (step * 1440).minutes
-			archive :average, :every => (step * 5).minutes, :during => (step * 5 * 2016).minutes
-			archive :average, :every => (step * 30).minutes, :during => (step * 30 * 1488).minutes
-			archive :average, :every => (step * 300).minutes, :during => (step * 300 * 1752).minutes
+		rrd.create :start => Time.now, :step => step.seconds do
+			datasource name, :type => :gauge, :heartbeat => (step * 2).seconds
+			archive :average, :every => step.seconds, :during => (step * 1440).seconds
+			archive :average, :every => (step * 5).seconds, :during => (step * 5 * 2016).seconds
+			archive :average, :every => (step * 30).seconds, :during => (step * 30 * 1488).seconds
+			archive :average, :every => (step * 300).seconds, :during => (step * 300 * 1752).seconds
 		end
 	end
 

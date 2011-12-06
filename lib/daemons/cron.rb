@@ -33,7 +33,7 @@ module CRON
 		end
 
 		def call job
-			Rails.logger.info "Wykonuję zadanie #{@job.name} co #{@job.interval}m"
+			Rails.logger.info "Wykonuję zadanie #{@job.name} co #{@job.interval}s"
 			pid, stdin, stdout, stderr = Open4::popen4 @job.script
 			stdin.close
 
