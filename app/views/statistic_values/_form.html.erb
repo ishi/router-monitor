@@ -16,7 +16,7 @@
 		<%= f.text_field :print_name %>
 	</div>
 	<div class="field">
-		<%= f.label :interval, 'Interwał' %><br />
+		<%= f.label :interval, 'Interwał (s)' %><br />
 		<%= f.number_field :interval, :disabled => !@statistic_value.new_record? %>
 	</div>
 	<div class="field">

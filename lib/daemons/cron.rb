@@ -79,7 +79,7 @@ module CRON
 		def self.add job
 			Rails.logger.info "Dodaję zadanie #{job.name}"
 			cron_job = CronJob.new(job)
-			@@values[job.id] = [cron_job, (scheduler.every "#{job.interval}m", cron_job, :first_in => '1s')]
+			@@values[job.id] = [cron_job, (scheduler.every "#{job.interval}s", cron_job, :first_in => '1s')]
 		end
 
 		def self.remove id
