@@ -27,10 +27,8 @@ class StatisticsController < ApplicationController
 		dir = stats_dir
 		elements = params[:el]
 		RRD.graph File.join(charts_dir, @file), graph_params(params) do
-			draw_line :data => "0"
-			draw_line :data => "100"
 			elements.each do |id, el|
-				next unless el[:value]
+ 				next unless el[:value]
 				obj = StatisticValue.find(el[:value])
 				area File.join(dir, "#{obj.name}.rrd"), obj.name.to_sym => :average, :color => "#{el[:color]}A0", :label => obj.print_name
 			end
