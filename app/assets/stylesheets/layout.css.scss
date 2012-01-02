@@ -1,50 +1,75 @@
-$left-size: 17em;
+html {
+  height: 100%;
+}
 
 body {
-	padding: 1em;
+	padding: 0;
+	margin: 0;
 	font-family: Arial, Helvetica, sans-serif;
   color: #3a4f54;
   background-color: #dfecf1;
   font-size: small;
+  height: 100%;
 }
 
+$menu-header-height: 30px;
+$menu-width-hidden: 30px;
+$menu-width: 170px;
 #menu {
-	float: left;
-	width: $left-size;
-	ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-	
-  & > h3 {
-    margin-top: .5em;
-    padding: .5em;
-  }
-
-  & > div {
-    margin-top: -.4em;
-    padding: .2em;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li, li a {
-    display: block;
-  }
-
-  li a {
-    padding-left: 1em;
+  $menu-header-height: 30px;
+  $menu-thumbnail-width: $menu-width-hidden;
+  $menu-title-width: $menu-width - $menu-width-hidden;
+  
+  position: absolute;
+  z-index: 10;
+  background-color: #cfdce1;
+  height: 100%;
+  
+  .menu-entry {
+    margin-top: 3px;
   }
   
-  &.ui-accordion .ui-accordion-header a {
-    font-size: 1em;
+  .menu-row {
+    margin: 0;
     padding: 0;
-    padding-left: 1.1em;
   }
+  
+	.menu-thumbnail {
+	  width: $menu-thumbnail-width;
+	  height: $menu-header-height;
+	  background: red;
+	  float:left;
+	  cursor: pointer;
+	}
+	
+	.menu-title {
+	  float:left;
+	  font-weight: bold;
+	  font-size: 1.2em;
+	  width: $menu-title-width;
+	  height: $menu-header-height - 6px;
+	  text-align: center;
+	  padding-top: 6px;
+	  cursor: pointer;
+	}
+	
+	.menu-spacer {
+	  width: $menu-thumbnail-width;
+	  height: 1px;
+	  float:left;
+	}
+	
+	.menu-items {
+	  width: $menu-title-width;
+	  min-height: 20px;
+	  float:left;
+	  overflow: hidden;
+	  
+	  ul {
+	    list-style-type: none;
+	    padding: 0px 10px;
+	  }
+	}
 }
 
 a {
@@ -98,7 +123,7 @@ table {
 
 #page-content {
   padding: 1em;
-  margin-left: $left-size + 3;
+  padding-left: $menu-width-hidden + 15px;
 
   .ui-button {
     margin: .5em;
