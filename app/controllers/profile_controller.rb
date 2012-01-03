@@ -1,6 +1,8 @@
 class ProfileController < ApplicationController
+  include ProfileHelper
+  
   def change
-    session[:panel_profile] = params[:type]
+    self.panel_profile = params[:type]
     redirect_to root_url
   end
 

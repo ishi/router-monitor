@@ -1,14 +1,14 @@
 <div id="profiles-menu" class="ui-helper-clearfix">
-	<div<%= ' class=active' if is_profile?('user') %>>
-		<%= link_to "User space", profile_change_path('user') %>
+	<div<%= ' class=active' if is_profile?(:user) %>>
+		<%= link_to "User space", profile_change_path(:user) %>
 	</div>
-	<div<%= ' class=active' if is_profile?('wizzard') %>>
-		<%= link_to "Kreator", profile_change_path('wizzard') %>
+	<div<%= ' class=active' if is_profile?(:wizzard) %>>
+		<%= link_to "Kreator", profile_change_path(:wizzard) %>
 	</div>
-	<div<%= ' class=active' if is_profile?('panel') %>>
-		<%= link_to "Panel", profile_change_path('panel') %>
+	<div<%= ' class=active' if is_profile?(:panel) %>>
+		<%= link_to "Panel", profile_change_path(:panel) %>
 	</div>
-	<div<%= ' class=active' if is_profile?('editor') %>>
-		<%= link_to "Edytor", profile_change_path('editor') %>
+	<div<%= ' class=active' if is_profile?(:editor) %>>
+		<%= link_to "Edytor", profile_change_path(:editor) %>
 	</div> 
 </div>
