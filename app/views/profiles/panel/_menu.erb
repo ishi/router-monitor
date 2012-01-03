@@ -1,0 +1,125 @@
+<div id="menu">
+	<div class="menu-entry">
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-thumbnail"></div>
+			<div class="menu-title">
+				Start
+			</div>
+		</div>
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-spacer"></div>
+			<div class="menu-items">
+				<ul>
+					<li>
+						<a href="#">Strefy</a>
+					</li>
+					<li>
+						<a href="#">Adresacja</a>
+					</li>
+					<li>
+						<a href="#">Usługi</a>
+					</li>
+					<li>
+						<a href="#">Polityki</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="menu-entry">
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-thumbnail"></div>
+			<div class="menu-title">
+				Users/Groups
+			</div>
+		</div>
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-spacer"></div>
+			<div class="menu-items">
+				<ul>
+					<li>
+						<a href="#">Nowa Grupa</a>
+					</li>
+					<li>
+						<a href="#">Nowy Użytkownik</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="menu-entry">
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-thumbnail"></div>
+			<div class="menu-title">
+				Usługi
+			</div>
+		</div>
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-spacer"></div>
+			<div class="menu-items">
+				<ul>
+					<li>
+						<a href="#">DHCP</a>
+					</li>
+					<li>
+						<a href="#">DNS</a>
+					</li>
+					<li>
+						<a href="#">NTP</a>
+					</li>
+					<li>
+						<a href="#">QUOS</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="menu-entry">
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-thumbnail"></div>
+			<div class="menu-title">
+				Import/Eksport
+			</div>
+		</div>
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-spacer"></div>
+			<div class="menu-items">
+				<ul>
+					<li>
+						<a href="#">Import</a>
+					</li>
+					<li>
+						<a href="#">Eksport</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="menu-entry">
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-thumbnail"></div>
+			<div class="menu-title">
+				Statystyki
+			</div>
+		</div>
+		<div class="menu-row ui-helper-clearfix">
+			<div class="menu-spacer"></div>
+			<div class="menu-items">
+				<ul>
+					<li>
+						<%= link_to "Generacja wykresów", statistics_path %>
+					</li>
+					<li>
+						<%= link_to "Lista itemów", statistic_values_path %>
+					</li>
+					<li>
+						<%= link_to "Dodaj nowy item", new_statistic_value_path %>
+					</li>
+					<li>
+						<%= link_to "Logi skryptów", statistics_log_path %>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

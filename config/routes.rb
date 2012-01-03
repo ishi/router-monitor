@@ -1,5 +1,7 @@
 RouterMonitor::Application.routes.draw do
   
+  get "profile/change/:type" => 'profile#change', :as => :profile_change
+
   scope "/editor" do
     get "/:type" => 'editor#edit', :as => :edit_editor
     put "/:type" => 'editor#update', :as => :editor

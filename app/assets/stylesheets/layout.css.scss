@@ -12,6 +12,43 @@ body {
   height: 100%;
 }
 
+a {
+  color: #e33b06;
+}
+
+table {
+  empty-cells: show;
+
+  td {
+    vertical-align: top;
+    padding-bottom: 8px;
+    font-size: small;
+  }
+}
+
+$profiles-menu-height: 30px;
+#profiles-menu {
+  position: absolute;
+  width: 100%;
+  z-index: 3;
+  
+  & > div {
+    width: 25%;
+    float: left;
+    
+    & > a {
+      display: block;
+      border: 1px solid black;
+      background: #AED0EA;
+      line-height: $profiles-menu-height;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+  }
+}
+
 $menu-header-height: 30px;
 $menu-width-hidden: 30px;
 $menu-width: 170px;
@@ -21,9 +58,14 @@ $menu-width: 170px;
   $menu-title-width: $menu-width - $menu-width-hidden;
   
   position: absolute;
-  z-index: 10;
+  top: 0;
+  z-index: 2;
   background-color: #cfdce1;
   height: 100%;
+  
+  .menu-entry:first-child {
+    margin-top: $profiles-menu-height + 5px;
+  }
   
   .menu-entry {
     margin-top: 3px;
@@ -72,20 +114,6 @@ $menu-width: 170px;
 	}
 }
 
-a {
-  color: #e33b06;
-}
-
-table {
-  empty-cells: show;
-
-  td {
-    vertical-align: top;
-    padding-bottom: 8px;
-    font-size: small;
-  }
-}
-
 .ui-helper-left {
   float: left;
 }
@@ -124,6 +152,7 @@ table {
 #page-content {
   padding: 1em;
   padding-left: $menu-width-hidden + 15px;
+  padding-top: $profiles-menu-height + 15px;
 
   .ui-button {
     margin: .5em;
