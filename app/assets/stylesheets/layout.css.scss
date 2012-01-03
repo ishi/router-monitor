@@ -32,11 +32,11 @@ $profiles-menu-height: 30px;
   width: 100%;
   z-index: 3;
   
-  & > div {
+  div {
     width: 25%;
     float: left;
     
-    & > a {
+    a {
       display: block;
       border: 1px solid black;
       background: #AED0EA;
@@ -46,7 +46,11 @@ $profiles-menu-height: 30px;
       text-align: center;
       text-decoration: none;
     }
+    
   }
+    div.active a {
+      background: #8EB0AA;
+    }
 }
 
 $menu-header-height: 30px;
@@ -61,6 +65,7 @@ $menu-width: 170px;
   top: 0;
   z-index: 2;
   background-color: #cfdce1;
+  opacity:0.9;
   height: 100%;
   
   .menu-entry:first-child {
