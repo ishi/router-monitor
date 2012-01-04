@@ -19,6 +19,12 @@ class EditorController < ApplicationController
   end
 
   def update
+    puts params
+    if params[:commit] == 'Otwórz'
+      self.edit
+      render 'edit'
+      return
+    end
     redirect_to edit_editor_url(@type), :notice => "Zapisano plik"
   end
   
@@ -26,8 +32,8 @@ private
 
   def set_params
     @type = params[:type]
-    redirect_to root_url, :alert => "Nieobsługiwany plik" unless @@types.has_key? @type
-    @file = @@types[@type]
+    #redirect_to root_url, :alert => "Nieobsługiwany plik" unless @@types.has_key? @type
+    @file = !params[:file].blank? && params[:file] || @@types[@type]
   end
 
 end

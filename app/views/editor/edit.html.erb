@@ -1,6 +1,11 @@
-<%= form_tag editor_path(@type), :method => "put"  do %>
-	<%= text_area_tag(:'conf-editor', @content, :size => "24x6") %>
-<% end %>
+<%= form_tag editor_path(@type), :method => "put"  do -%>
+	<%= label_tag(:file, "Plik do edycji:") %>
+	<%= text_field_tag(:file, @file) %> 
+	<%= submit_tag("Otwórz") %>
+	<%= submit_tag("Zapisz") %>
+	<%= text_area_tag(:'conf-editor', @content) %>
+	
+<% end -%>
 
 <script type="text/javascript">
 	$(function () {
