@@ -11,4 +11,7 @@
 	<div<%= ' class=active' if is_profile?(:editor) %>>
 		<%= link_to "Edytor", profile_change_path(:editor) %>
 	</div> 
+	<div<%= ' class=active' if is_profile?(:monitoring) %>>
+		<%= link_to "Monitoring", profile_change_path(:monitoring) %>
+	</div> 
 </div>
