@@ -11,9 +11,45 @@ body.statistics {
 		dl dd { margin: -25px 0 10px 65px; }
 		td { font-size: 90%; }
 	}
-
+  
+  #page-content .controls-container {
+    display: table;
+    
+    .commands {
+      display: table-cell;
+      vertical-align: middle;
+      
+      .button {
+        height: 70px;
+      }
+    }
+    
+    .options {
+      display: table-cell;
+      padding: 5px;
+      padding-left: 10px;
+      vertical-align: top;
+      border: 1px solid #BEE0FA;
+      
+      .date {
+        width: 120px;
+      }
+      
+      .color {
+        width: 70px;
+      }
+      
+      fieldset {
+        float: left;
+        border: 0;
+      }
+    }
+  }
+  
 	.graph-container {
 		position: relative;
+		height: 90%;
+		padding: 10px;
 
 		img, .arrow-container {
 			float: left;
@@ -21,6 +57,7 @@ body.statistics {
 
 		img.graph {
 			width: 90%;
+			height: 100%;
 		}
 	}
 

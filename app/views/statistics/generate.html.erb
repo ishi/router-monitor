@@ -8,29 +8,35 @@
 	});
 </script>
 
-<!-- %= @rrd.info.to_s % -->
+<%= #@rrd.info.to_s
+ -%>
 
 <%= form_tag statistics_generate_url do %>
-	<div class="ui-helper-clearfix">
-	<%= submit_tag "Generuj", :class => "button", :style => "height: 70px;float: left; margin: 0;" %>
-	<div style="float: left; margin-left: 10px;">
-		<%= label_tag :date_from, "Data od:" %>
-		<%= text_field_tag :date_from, params[:date_from] %>
-		<%= label_tag :date_from, "Data do:" %>
-		<%= text_field_tag :date_to, params[:date_to] %>
-		<br />
-		<br />
-		<% @values.each do |v|
-			el =  params[:el].try(:[], :"#{v.id}") -%>
-			<%= check_box_tag :"el[#{v.id}][value]", v.id, el.try(:[], :value) %>
-			<%= label_tag :"el[#{v.id}][value]", v.print_name %>
-			<%= text_field_tag :"el[#{v.id}][color]", el.try(:[], :color) || ("#%06x" % (rand * 0xffffff)).upcase, :size => 6 %>
-		<% end -%>
+	<div class="controls-container ui-helper-clearfix">
+		<div class="commands">
+			<%= submit_tag "Generuj", :class => "button" %>
+		</div>
+		<div class="options">
+			<%= label_tag :date_from, "Data od:" %>
+			<%= text_field_tag :date_from, params[:date_from], :class => 'date' %>
+			<%= label_tag :date_from, "Data do:" %>
+			<%= text_field_tag :date_to, params[:date_to], :class => 'date' %>
+			<br />
+			<br />
+			<% @values.each do |v|
+				el =  params[:el].try(:[], :"#{v.id}") -%>
+				<%= field_set_tag do %>
+				<%= check_box_tag :"el[#{v.id}][value]", v.id, el.try(:[], :value) %>
+				<%= label_tag :"el[#{v.id}][value]", v.print_name %>
+				<%= text_field_tag :"el[#{v.id}][color]", el.try(:[], :color) || ("#%06x" % (rand * 0xffffff)).upcase,
+					 :size => 6, :class => 'color' %>
+				<% end %>
+			<% end -%>
 		</div>
 	</div>
 	<% if @file -%>
 		<div class="graph-container ui-helper-clearfix">
-			<br />
+			
 			<div class="arrow-container">
 				<%= submit_tag '', :name => 'offset[left][half]', :class => 'left-half arrow' %>
 				<%= submit_tag '', :name => 'offset[left][full]', :class => 'left arrow' %>
