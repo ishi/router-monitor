@@ -136,11 +136,13 @@ $menu-width: 170px;
 }
 
 #message-panel {
+  $message-panel-width: 30em;
+  $message-panel-height: 3em;
   position: absolute;
   margin: auto;
-  width: 30em;
-  top: 0;
+  top: 50%;
   left: 50%;
+  z-index: 100;
 
   .ui-widget {
     list-style-type: none;
@@ -149,8 +151,22 @@ $menu-width: 170px;
   
   .ui-message {
     display: block;
-    padding: .5em;
+    width: $message-panel-width;
+    margin-left: - $message-panel-width / 2;
+    margin-top: - $message-panel-height;
+    line-height: $message-panel-height;
     text-align: center;
+    cursor: pointer;
+  }
+  
+  .message-notice {
+    background: #00FF33;
+  }
+  .message-warning {
+    background: orange;
+  }
+  .message-error {
+    background: red;
   }
 }
 

@@ -1,15 +1,11 @@
-<% if flash[:notice] %>
-	<p class="notice">
-		<%= flash[:notice] %>
-	</p>
-	<% end %>
-	<% if flash[:error] %>
-	<p class="error">
-		<%= flash[:error] %>
-	</p>
-	<% end %>
-	<% if flash[:alert] %>
-	<p class="error">
-		<%= flash[:alert] %>
-	</p>
-<% end %>
+<% if !flash.blank? -%>
+<div id="message-panel">
+	<ul class="ui-widget">
+		<% flash.each do |type, msg| -%>
+		<li class="ui-message ui-corner-all message-<%= type %>">
+			<%= msg %>
+		</li>
+		<% end -%>
+	</ul>
+</div>
+<% end -%> 
