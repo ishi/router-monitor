@@ -10,7 +10,7 @@ class StatisticsController < ApplicationController
 	end
 
 	def generate
-		return redirect_to :action => 'index' if params[:date_from].blank? || params[:date_to].blank?
+		return redirect_to :action => 'index' if params[:date_from].blank? || params[:date_to].blank? || params[:el].blank?
 		if params[:offset]
 			offset = params[:offset]
 			site = offset[:right] || offset[:left]
