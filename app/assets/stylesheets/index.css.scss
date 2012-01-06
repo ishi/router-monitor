@@ -1,0 +1,67 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+body.index {
+  
+  #page-content #menu {
+    $menu-width: 170px;
+    $menu-header-height: 30px;
+    $menu-thumbnail-width: 30px;
+    $menu-title-width: 140px;
+    
+    position: inherit;
+    z-index: 0;
+    background-color: #cfdce1;
+    opacity:1;
+    height: auto;
+    
+    .menu-entry {
+      margin: 3px auto;
+      width: $menu-width;
+    }
+    
+    .menu-row {
+      margin: 0;
+      padding: 0;
+    }
+    
+  	.menu-thumbnail {
+  	  width: $menu-thumbnail-width;
+  	  height: $menu-header-height;
+  	  background: red;
+  	  float:left;
+  	  cursor: pointer;
+  	}
+  	
+  	.menu-title {
+  	  float:left;
+  	  font-weight: bold;
+  	  font-size: 1.2em;
+  	  width: $menu-title-width;
+  	  height: $menu-header-height - 6px;
+  	  text-align: center;
+  	  padding-top: 6px;
+  	  cursor: pointer;
+  	}
+  	
+  	.menu-spacer {
+  	  width: $menu-thumbnail-width;
+  	  height: 1px;
+  	  float:left;
+  	}
+  	
+  	.menu-items {
+  	  width: $menu-title-width;
+  	  min-height: 20px;
+  	  float:left;
+  	  overflow: hidden;
+  	  
+  	  ul {
+  	    list-style-type: none;
+  	    padding: 0px 10px;
+  	  }
+  	}
+  }
+}
