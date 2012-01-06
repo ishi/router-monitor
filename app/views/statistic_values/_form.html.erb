@@ -20,6 +20,10 @@
 		<%= f.number_field :interval, :disabled => !@statistic_value.new_record? %>
 	</div>
 	<div class="field">
+		<%= f.label :active, 'Aktywny' %><br />
+		<%= f.check_box :active %>
+	</div>
+	<div class="field">
 		<%= f.label :script, 'Skrypt pobierający dane' %><br />
 		<%= f.text_area :script %>
 	</div>

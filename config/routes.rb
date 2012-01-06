@@ -8,7 +8,11 @@ RouterMonitor::Application.routes.draw do
   end
 
   scope "/statistics" do
-  	resources :statistic_values, :path => "values"
+  	resources :statistic_values, :path => "values" do
+  	  member do
+  	   put "/activate" => 'statistic_values#activate', :as => :activate
+  	  end
+  	end
   
   	match '/' => 'statistics#index', :as => :statistics
   	match '/generate' => 'statistics#generate', :as => :statistics_generate

@@ -41,7 +41,7 @@ class StatisticsController < ApplicationController
 	private
 
 	def set_graph_values
-		@values = StatisticValue.all
+		@values = StatisticValue.active
 	end
 
 	def create_filename (params)

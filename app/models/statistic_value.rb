@@ -2,6 +2,8 @@
 require 'rrd'
 
 class StatisticValue < ActiveRecord::Base
+  scope :active, where(:active => true)
+  
 	validates :print_name, :script, :presence => { :message => "nie może być puste" }
 	validates :name, :uniqueness => true
 	validates :interval, :numericality => { :only_integer => true, :greater_than => 0, :message => "musi być więkrze od 0" }

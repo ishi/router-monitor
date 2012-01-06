@@ -4,23 +4,35 @@
     <th>Nazwa</th>
     <th>Nazwa zmiennej</th>
     <th>Interwał (s)</th>
+    <th>A</th>
     <th></th>
   </tr>
 
-<% @statistic_values.each_with_index do |statistic_value, index| %>
+<% @statistic_values.each_with_index do |value, index| %>
   <tr>
   	<td class="id"><%= index %></td>
-    <td class="item-list-column-long"><%= statistic_value.print_name %></td>
-    <td class="item-list-column"><%= statistic_value.name %></td>
-    <td class="item-list-column"><%= statistic_value.interval %></td>
-	<!-- td><%= link_to 'Show', statistic_value %></td -->
+    <td class="item-list-column-long"><%= value.print_name %></td>
+    <td class="item-list-column"><%= value.name %></td>
+    <td class="item-list-column"><%= value.interval %></td>
     <td>
-    	<%= link_to image_tag('edit-icon.png'), edit_statistic_value_path(statistic_value) %>
-    	<%= link_to image_tag('delete-icon.png'), statistic_value, confirm: 'Are you sure?', method: :delete %>
+    	<%= form_for value, :url => activate_statistic_value_path(value) do |f| -%>
+    		<%= f.check_box :active, :class => "activate-item" %>
+    	<% end -%>
+    </td>
+	<!-- td><%= link_to 'Show', value %></td -->
+    <td>
+    	<%= link_to image_tag('edit-icon.png'), edit_statistic_value_path(value) %>
+    	<%= link_to image_tag('delete-icon.png'), value, confirm: 'Are you sure?', method: :delete %>
     </td>
   </tr>
 <% end %>
 </table>
 <%= link_to 'Dodaj nowy item', new_statistic_value_path, :class => "button"%>
 
-<br />
+<script>
+	$(function() {
+		$('.activate-item').change(function() {
+			$(this).parent('form').submit();
+		})
+	})
+</script>
