@@ -8,3 +8,4 @@ test-old
 public/assets/
 public/charts/
 init_env
+.project
