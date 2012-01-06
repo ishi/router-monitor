@@ -3,7 +3,7 @@
 	$(function() {
 		$('[id^="date_"]').datetimepicker({
 			dateFormat: 'dd.mm.yy',
-			onClose: function(dateText, inst) { $(this).parent('form').get(0).submit(); }
+			onClose: function(dateText, inst) { $(this).parents('form').get(0).submit(); }
 		});
 	});
 </script>
