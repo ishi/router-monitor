@@ -1,0 +1,62 @@
+@import "settings";
+
+#menu {
+  $menu-title-width: $menu-width - $menu-thumbnail-width;
+  
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  background-color: #cfdce1;
+  opacity:0.9;
+  height: 100%;
+  
+  .menu-entry:first-child {
+    margin-top: $profiles-menu-height + 5px;
+  }
+  
+  .menu-entry {
+    margin-top: 3px;
+  }
+  
+  .menu-row {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu-thumbnail {
+    width: $menu-thumbnail-width;
+    height: $menu-header-height;
+    background: red;
+    float:left;
+    cursor: pointer;
+  }
+  
+  .menu-title {
+    float:left;
+    font-weight: bold;
+    font-size: 1.2em;
+    width: $menu-title-width;
+    height: $menu-header-height - 6px;
+    text-align: center;
+    padding-top: 6px;
+    cursor: pointer;
+  }
+  
+  .menu-spacer {
+    width: $menu-thumbnail-width;
+    height: 1px;
+    float:left;
+  }
+  
+  .menu-items {
+    width: $menu-title-width;
+    min-height: 20px;
+    float:left;
+    overflow: hidden;
+    
+    ul {
+      list-style-type: none;
+      padding: 0px 10px;
+    }
+  }
+}

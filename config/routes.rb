@@ -1,10 +1,13 @@
 RouterMonitor::Application.routes.draw do
-  
+
   get "profile/change/:type" => 'profile#change', :as => :profile_change
 
-  scope "/editor" do
+  namespace :editor, :as => '' do
+    resource :iptables, :only => [:show, :edit, :update]
+    
     get "/(:type)" => 'editor#edit', :as => :edit_editor
     put "/(:type)" => 'editor#update', :as => :editor
+    
   end
 
   scope "/statistics" do
