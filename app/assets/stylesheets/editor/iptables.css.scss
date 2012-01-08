@@ -5,8 +5,10 @@
 
 #iptables-editor {
 	table {
-		width: 100%;
 		border-collapse: collapse;
+		empty-cells: show;
+		margin: 0 auto;
+		background: white;
 	}
 	
 	tr {
@@ -16,9 +18,8 @@
 	
 	td {
 		text-align: center;
-		vertical-align: middle;
+		vertical-align: top;
 		padding: 0px;
-		width: auto;
 	}
 	
 	td.image {
@@ -26,6 +27,35 @@
 	}
 	
 	td.middle {
-		width: 70px;
+		width: 62px;
+	}
+	
+	div.box {
+		height: 100%;
+		border: 1px solid black;
+		border-radius: 5px;
+		
+		h3 {
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 18px;
+			margin: 0;
+			border-bottom: 1px solid black;
+		}
+		
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		
+		li {
+			background: yellow;
+			height: 20px;
+		}
+		li:last-child {
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
 	}
 }
