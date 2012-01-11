@@ -1,36 +1,52 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
-
 #iptables-editor {
-	table {
+	.interface {
+		margin: 0, auto;
+		display: table;
+	}
+	
+	.table {
 		border-collapse: collapse;
+		border-spacing: 0;
 		empty-cells: show;
 		margin: 0 auto;
 		background: white;
+		display: table;
 	}
 	
-	tr {
-		margin: 0;
-		padding: 0;
+	.tr {
+		display: table-row;
 	}
 	
-	td {
+	.td {
 		text-align: center;
 		vertical-align: top;
 		padding: 0px;
+		display: table-cell;
 	}
 	
-	td.image {
+	.td.image:first-child {
+		text-align: right;
+	}
+	.td.image:last-child {
+		text-align: left;
+	}
+	
+	.td.image {
 		line-height: 0px;
 	}
 	
-	td.middle {
-		width: 62px;
+	.td.middle {
+		width: 60px;
 	}
 	
-	div.box {
+	.td.bg2 {
+		background: image-url("iptables/all/dpp-2-2-bg.png") repeat-y;
+	}
+	.td.bg4 {
+		background: image-url("iptables/all/dpp-4-2-bg.png") repeat-y;
+	}
+	
+	.box {
 		height: 100%;
 		border: 1px solid black;
 		border-radius: 5px;
