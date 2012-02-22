@@ -1,6 +1,7 @@
 #iptables-editor {
+
 	.interface {
-		margin: 0, auto;
+		margin: auto;
 		display: table;
 	}
 	
@@ -13,56 +14,60 @@
 		display: table;
 	}
 	
-	.tr {
+	.table > div {
 		display: table-row;
 	}
 	
-	.td {
+	.table > div > div {
 		text-align: center;
 		vertical-align: top;
 		padding: 0px;
 		display: table-cell;
 	}
 	
-	.td.image:first-child {
+	.image:first-child {
 		text-align: right;
 	}
-	.td.image:last-child {
+	.image:last-child {
 		text-align: left;
 	}
-	
-	.td.image {
+	.image {
 		line-height: 0px;
 	}
 	
-	.td.middle {
+	.middle {
 		width: 60px;
 	}
 	
-	.td.bg2 {
+	.bg2 {
 		background: image-url("iptables/all/dpp-2-2-bg.png") repeat-y;
 	}
-	.td.bg4 {
+	.bg4 {
 		background: image-url("iptables/all/dpp-4-2-bg.png") repeat-y;
 	}
 	
 	.box {
 		height: 100%;
-		border: 1px solid black;
-		border-radius: 5px;
+		$border-radius: 5px;
 		
 		h3 {
 			font-size: 14px;
 			font-weight: bold;
 			line-height: 18px;
 			margin: 0;
-			border-bottom: 1px solid black;
+			border: 1px solid black;
+			border-top-right-radius: $border-radius;
+			border-top-left-radius: $border-radius;
 		}
 		
 		ul {
 			list-style-type: none;
 			margin: 0;
 			padding: 0;
+			border: 1px solid black;
+			border-top: 0px;
+			border-bottom-right-radius: $border-radius;
+			border-bottom-left-radius: $border-radius;
 		}
 		
 		li {
