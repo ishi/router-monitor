@@ -1,0 +1,9 @@
+<div class="box">
+	<h3><%= chain %></h3>
+	<ul data-chain-type="<%= chain %>">
+		<% rules[chain].each do |rule| -%>
+			<li><%= rule %></li>
+		<% end -%>
+		<li></li>
+	</ul>
+</div>

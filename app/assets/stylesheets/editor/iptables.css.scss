@@ -2,7 +2,8 @@
 
 	.interface {
 		margin: auto;
-		display: table;
+		display: table-cell;
+		padding: 0 20px;
 	}
 	
 	.table {
@@ -73,6 +74,7 @@
 		li {
 			background: yellow;
 			height: 20px;
+			text-align: left;
 		}
 		li:last-child {
 			border-bottom-left-radius: 5px;

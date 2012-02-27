@@ -39,9 +39,20 @@ $(function() {
 		var interfaceName = $(this).data('interface-type');
 		
 		$(this).find('ul').each(function() {
-			var chainType = $(this).data('chain-type');
+			var $ul = $(this), chainType = $ul.data('chain-type');
+			getLevelBoxList.call($ul).each(function () {
+				var diff = $(this).children().length - $ul.children().length;
+				if (0 < diff) {
+					for (var i=0; i < diff; i++) {
+						$ul.append('<li></li>');
+					};
+				}
+			});
 			
-			$(this).find('li').html( createEmptyInput(interfaceName, chainType) );
+			$(this).find('li').each(function () {
+				var $li = $(this);
+				$li.html( createEmptyInput(interfaceName, chainType).val($li.text()));
+			});
 		});
 	});
 });
