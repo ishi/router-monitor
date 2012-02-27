@@ -79,4 +79,14 @@
 			border-bottom-right-radius: 5px;
 		}
 	}
+	
+	li {
+		input {
+			font-size: 10px;
+			width: 99%;
+			background: inherit;
+			border: 0;
+			border-bottom: 1px solid black;
+		}
+	}
 }
