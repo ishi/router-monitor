@@ -1,3 +1,5 @@
+<%= form_tag iptables_path, :method => 'put' do %>
+<%= submit_tag "Zapisz", :class => 'button' %>
 <div id="iptables-editor">
 	<% @rules.each do |interface, irules|
 		irules = @rules[interface.to_sym] -%>
@@ -34,3 +36,4 @@
 	</div>
 	<% end -%>
 </div>
+<% end -%>

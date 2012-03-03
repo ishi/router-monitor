@@ -8,10 +8,7 @@
 	});
 </script>
 
-<%= #@rrd.info.to_s
- -%>
-
-<%= form_tag statistics_generate_url do %>
+<%= form_tag statistics_generate_path do %>
 	<div class="controls-container ui-helper-clearfix">
 		<div class="commands">
 			<%= submit_tag "Generuj", :class => "button" %>

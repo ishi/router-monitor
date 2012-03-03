@@ -4,7 +4,7 @@
 $(function() {
 	
 	var createEmptyInput = function (interfaceName, chainType) {
-		return $('<input type="text" name="iptables[' + interfaceName + '][' + chainType + ']" />')
+		return $('<input type="text" name="rules[' + interfaceName + '][' + chainType + '][]" />')
 					.data('interface-type', interfaceName).data('chain-type', chainType);
 	};
 	
@@ -26,20 +26,35 @@ $(function() {
 					$('<li></li>').html(createEmptyInput($input.data('interface-type'), $(this).data('chain-type')))
 				);
 			});
+			return false;
+		},
+		backspace: function () {
+			var $input = $(this);
+			if (!$input.val()) {
+				var $li = $input.parent();
+				$li.parent().append($li);
+				getLevelBoxList.call($li).each(function () {
+					
+			});
+			}		
 		}
 	}
 	
 	$(document).on('keydown', 'input[type="text"]', function(event) {
-		if (event.keyCode == 13) {
-			handler.enter.call(this);
+		switch(event.keyCode) {
+			case 13: return handler.enter.call(this);
+			case 8: return handler.backspace.call(this); 
 		}
-	});
+	})
 	
 	$('.interface').each(function() {
 		var interfaceName = $(this).data('interface-type');
 		
 		$(this).find('ul').each(function() {
 			var $ul = $(this), chainType = $ul.data('chain-type');
+			var children = $(this).children()
+			if (!children.length || children.last().text()) $(this).append('<li></li>')
+
 			getLevelBoxList.call($ul).each(function () {
 				var diff = $(this).children().length - $ul.children().length;
 				if (0 < diff) {
