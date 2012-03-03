@@ -22,14 +22,16 @@ class Editor::IptablesController < ApplicationController
     @rules.each do |interface, chains|
       chains.each do |chain, rules|
         filename = File.join(conf_dir, "#{interface}.#{chain}")
-        File.open(filename, 'w') {|f| f.write(rules.join "\n") }
+        begin
+          File.open(filename, 'w') {|f| f.write(rules.join "\n") }
+        rescue
+          return render :edit, :flash => { :error => "Nie udało się zapisać pliku #{filename}" }
+        end
       end
     end
     
     flash[:notice] = 'Reguły zostały zapisane'
     redirect_to :action => 'edit'
-  rescue
-    return render :edit, :flash => { :error => "Nie udało się zapisać pliku #{filename}" }
   end
   
   private
