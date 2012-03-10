@@ -1,0 +1,190 @@
+#!/bin/bash
+
+### CONFIGI
+
+	#source
+
+### FIREWALL ###
+
+	FWV=20111130
+
+### ZMIENNE
+
+	ipt="/sbin/iptables"
+	mod="/sbin/modprobe"
+	sc="/sbin/sysctl"
+
+	KDMOK="192.168.103.0/24"
+	
+	WAN1="eth6"; WAN1_IP="153.19.250.142"
+	WAN2="eth7"; WAN2_IP="192.168.200.43"
+
+	LAN0="eth0"; LAN0_IP="10.11.3.249"
+	LAN1="eth1"; LAN1_IP="10.12.3.249"
+	LAN2="eth2"; LAN2_IP="10.13.3.249"
+	LAN3="eth3"; LAN3_IP="10.10.12.249"
+	LAN4="eth4"; LAN4_IP="10.10.13.249"
+	LAN5="eth5"; LAN5_IP="192.168.100.249"
+
+### MODULY
+
+	$mod ip_tables
+	$mod iptable_filter
+	$mod iptable_nat
+	$mod ip_conntrack
+	$mod iptable_mangle
+	$mod ipt_MASQUERADE
+	$mod ip_nat_ftp
+	$mod ip_nat_irc
+	$mod ip_conntrack_ftp
+	$mod ip_conntrack_irc
+
+### FLUSH
+
+	$ipt -F 
+	$ipt -X
+
+	$ipt -F -t nat
+	$ipt -X -t nat
+
+	$ipt -F -t mangle
+	$ipt -X -t mangle
+
+#	$ipt -F -t raw 
+#	$ipt -X -t raw
+
+### POLICE
+
+	$ipt -P INPUT DROP
+	$ipt -P OUTPUT ACCEPT
+	$ipt -P FORWARD DROP
+
+	$ipt -t nat -P OUTPUT ACCEPT
+	$ipt -t nat -P PREROUTING ACCEPT
+	$ipt -t nat -P POSTROUTING ACCEPT
+
+	$ipt -t mangle -P PREROUTING ACCEPT
+	$ipt -t mangle -P POSTROUTING ACCEPT
+
+#	$ipt -t raw -P PREROUTING ACCEPT
+#	$ipt -t raw -P OUTPUT ACCEPT
+
+### SYSCTL
+
+$sc net.ipv4.ip_forward=1
+
+### LANCUCHY
+
+$ipt -N ALLOW
+$ipt -A ALLOW -p TCP --syn -j  ACCEPT
+$ipt -A ALLOW -p TCP -m state --state ESTABLISHED,RELATED -j ACCEPT
+$ipt -A ALLOW -p TCP -j DROP
+
+$ipt -N ALLIN
+$ipt -A ALLIN -m state --state ESTABLISHED,RELATED -j ACCEPT
+$ipt -A ALLIN -j DROP
+
+$ipt -N ALOUT
+$ipt -A ALOUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+$ipt -A ALOUT -j DROP
+
+### RULES
+
+# ruch lokalny
+$ipt -A INPUT -i lo -j ACCEPT
+#$ipt -A OUTPUT -o lo -j ACCEPT
+
+# maskarada
+$ipt -t nat -A POSTROUTING -o ${WAN1} -j SNAT --to-source ${WAN1_IP}
+#$ipt -t nat -A POSTROUTING -o ${WAN1} -j MASQUERADE
+$ipt -t nat -A POSTROUTING -o ${LAN0} -j SNAT --to-source ${LAN0_IP}
+$ipt -t nat -A POSTROUTING -o ${LAN1} -j SNAT --to-source ${LAN1_IP}
+
+# Udostpnienie internetu out (all), in (est rel)
+
+	## WAN 1
+
+	$ipt -A INPUT -i ${WAN1} -j ALLOW
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN0} -j ALLIN
+	$ipt -A FORWARD -i ${LAN0} -o ${WAN1} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN1} -j ALLIN
+	$ipt -A FORWARD -i ${LAN1} -o ${WAN1} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN2} -j ALLIN
+	$ipt -A FORWARD -i ${LAN2} -o ${WAN1} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN3} -j ALLIN
+	$ipt -A FORWARD -i ${LAN3} -o ${WAN1} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN4} -j ALLIN
+	$ipt -A FORWARD -i ${LAN4} -o ${WAN1} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN1} -o ${LAN5} -j ALLIN
+	$ipt -A FORWARD -i ${LAN5} -o ${WAN1} -j ALOUT
+
+	
+	## WAN 2
+
+	$ipt -A INPUT -i ${WAN2} -j ALLOW
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN0} -j ALLIN
+	$ipt -A FORWARD -i ${LAN0} -o ${WAN2} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN1} -j ALLIN
+	$ipt -A FORWARD -i ${LAN1} -o ${WAN2} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN2} -j ALLIN
+	$ipt -A FORWARD -i ${LAN2} -o ${WAN2} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN3} -j ALLIN
+	$ipt -A FORWARD -i ${LAN3} -o ${WAN2} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN4} -j ALLIN
+	$ipt -A FORWARD -i ${LAN4} -o ${WAN2} -j ALOUT
+
+	$ipt -A FORWARD -i ${WAN2} -o ${LAN5} -j ALLIN
+	$ipt -A FORWARD -i ${LAN5} -o ${WAN2} -j ALOUT
+
+# ruch wewnetrzny
+
+#$ipt -A FORWARD -i ${LAN5} -o ${LAN0} -j ACCEPT
+#$ipt -A FORWARD -i ${LAN0} -o ${LAN5} -j ACCEPT
+
+$ipt -I FORWARD -i ${WAN2} -o ${LAN0} -j ACCEPT
+$ipt -I FORWARD -i ${LAN0} -o ${WAN2} -j ACCEPT
+
+$ipt -I FORWARD -i ${WAN2} -o ${LAN1} -j ACCEPT
+$ipt -I FORWARD -i ${LAN1} -o ${WAN2} -j ACCEPT
+
+$ipt -A FORWARD -i ${WAN2} -o ${WAN2} -j ACCEPT
+#$ipt -A FORWARD -i ${WAN2} -s ${KDMOK} -j ALOUT
+#$ipt -A FORWARD -o ${WAN2} -d ${KDMOK} -j ALLIN
+
+
+# pingi (icmp)
+
+	#$ipt -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+	#$ipt -A INPUT -p icmp --icmp-type time-exceeded -j ACCEPT
+	#$ipt -A INPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
+
+$ipt -A INPUT -p icmp -j ACCEPT
+#$ipt -A OUTPUT -p icmp -j ACCEPT
+
+# USLUGI
+$ipt -A INPUT -j ALLIN
+#snmp
+$ipt -A INPUT -p tcp --dport 161 -j ACCEPT
+$ipt -A INPUT -p udp --dport 161 -j ACCEPT
+
+#ssh
+$ipt -A INPUT -p tcp --dport 22 --sport 1024:65535 -j ACCEPT
+
+#dns
+$ipt -A INPUT -p udp --sport 53 -j ACCEPT
+$ipt -A INPUT -p tcp --sport 53 -j ACCEPT
+
+#$ipt -A OUTPUT -p udp --dport 53 -j ACCEPT
+#$ipt -A OUTPUT -p tcp --dport 53 -j ACCEPT
+

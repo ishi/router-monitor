@@ -1,0 +1,44 @@
+#!/bin/bash
+
+source /etc/mgr/firewall.config
+
+FWVER=20111106
+
+echo FIREWALL ${FWVER} UP
+
+# ssh, dla pewnosci bez estab
+for IP in $ADM_HOSTS; do
+ $IPTABLES -A INPUT -p tcp --dport 22 -s $IP -j ACCEPT
+		$IPTABLES -A OUTPUT -p tcp --sport 22 -d $IP -j ACCEPT
+done
+
+# serwer ovpn
+for IP in ${PUBLIC_IP_1}; do
+$IPTABLES -A INPUT -d ${IP} -p udp --dport 1194 -m conntrack --ctstate NEW,ESTABLISHED,RELATED --ctproto udp -j ACCEPT
+ $IPTABLES -A OUTPUT -s ${IP} -p udp --sport 1194 -m conntrack --ctstate ESTABLISHED,RELATED --ctproto udp -j ACCEPT
+done
+
+# ESTAB lokalny
+for IP in ${PUBLIC_IP_1} ${NET_LAN_1_TPL}.0/24; do
+ $IPTABLES -A INPUT -d $IP -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ $IPTABLES -A OUTPUT -s $IP -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+done
+
+# icmp do serwera
+$IPTABLES -A INPUT -p icmp --icmp-type 3 -j ACCEPT
+$IPTABLES -A INPUT -p icmp --icmp-type 8/0 -j ACCEPT
+$IPTABLES -A INPUT -p icmp --icmp-type 0/0 -j ACCEPT
+$IPTABLES -A INPUT -p icmp --icmp-type 11/0 -j ACCEPT
+
+$IPTABLES -A OUTPUT -p icmp --icmp-type 3/3 -m conntrack --ctstate RELATED -j ACCEPT
+$IPTABLES -A OUTPUT -p icmp --icmp-type 3/1 -m conntrack --ctstate RELATED -j ACCEPT
+$IPTABLES -A OUTPUT -p icmp --icmp-type 8/0 -j ACCEPT
+$IPTABLES -A OUTPUT -p icmp --icmp-type 0/0 -j ACCEPT
+
+# MASQ siec LAN1
+$IPTABLES -A FORWARD -i ${IF_LAN_1} -j INETIN
+$IPTABLES -A FORWARD -o ${IF_LAN_1} -j INETOUT
+$IPTABLES -t nat -A POSTROUTING -o ${IF_WAN_1} -s ${NET_LAN_1} -j MASQUERADE
+
+# lokalne
+/etc/mgr/firewall-local

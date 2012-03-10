@@ -1,0 +1,23 @@
+OGOLNE
+------------------
+-A dodaje komende na dole tablicy
+-I dodaje komende na wyznaczonym miejscu tablicy (np: iptables -I INPUT 5 ...) gdy brak cyfry na 1!
+
+TABLICE
+------------------
+-t wybiera tablice (raw/mangle/nat/filter) - domyslnie filter
+
+LANCUCHY
+------------------
+#dodawanie nowego lancucha
+IPTANLES -N NAZWA_LANCUCHA
+
+#dodawanie zasad do nowego lancucha
+IPTABLES -A/I NAZWA_LANCUCHA ...komenda...
+
+#przekierowanie do lancucha z lancucha INPUT/OUTPUT/...
+IPTABLES -A/I INPUT/OUTPUT/... ...komenda... -j NAZWA_LANCUCHA
+
+KOMENDY
+------------------
+IPTABLES INPUT/OUTPUT/... 

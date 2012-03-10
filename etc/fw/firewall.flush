@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+#
+
+IPTABLES=/sbin/iptables
+FWVER=20111106
+
+#
+# Czyszczenie
+#
+
+echo FIREWALL ${FWVER} DOWN
+$IPTABLES -F
+$IPTABLES -X
+$IPTABLES -t nat -F
+$IPTABLES -t nat -X
+$IPTABLES -t mangle -F
+$IPTABLES -t mangle -X
+echo POLICE ACCEPT ALL
+$IPTABLES -P INPUT ACCEPT
+$IPTABLES -P FORWARD ACCEPT
+$IPTABLES -P OUTPUT ACCEPT

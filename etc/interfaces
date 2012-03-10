@@ -1,0 +1,103 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+# Router & Firewall
+pre-up iptables-restore < /home/csrl/iptables.restore
+up /sbin/sysctl net.ipv4.ip_forward=1
+down /sbin/sysctl net.ipv4.ip_forward=0
+post-down iptables-restore < /home/csrl/iptablesdown.restore
+
+auto eth0
+auto eth1
+auto eth2
+auto eth3
+auto eth4
+auto eth5
+auto eth6
+auto eth7
+
+iface eth0 inet static
+address 10.11.3.249
+netmask 255.255.255.0
+network 10.11.3.0
+broadcast 10.11.3.255
+#gateway
+#dns-nameservers
+#dns-search
+#hwaddress ether 00:01:02:a5:10:11
+
+iface eth1 inet static
+address 10.12.3.249
+netmask 255.255.255.0
+network 10.12.3.0
+broadcast 10.12.3.255
+#gateway 10.12.3.254
+#dns-nameservers
+#dns-search
+#hwaddress ether 00:01:02:a5:10:12
+
+iface eth2 inet static
+address 10.13.3.249
+netmask 255.255.255.0
+network 10.13.3.0
+broadcast 10.13.3.255
+#gateway 10.13.3.254
+#dns-nameservers
+#dns-search
+#hwaddress ether 00:01:02:a5:10:13
+
+iface eth3 inet static
+address 10.10.12.249
+netmask 255.255.255.0
+network 10.10.12.0
+broadcast 10.10.12.255
+#gateway 10.10.12.254
+#dns-nameservers
+#dns-search
+#hwaddress ether 00:01:02:a5:40:12
+
+iface eth4 inet static
+address 10.10.13.249
+netmask 255.255.255.0
+network 10.10.13.0
+broadcast 10.10.13.255
+#gateway 10.10.13.254
+#dns-nameservers 10.10.13.254
+#dns-search7
+#hwaddress ether 00:01:02:a5:40:13
+
+iface eth5 inet static
+address 192.168.100.249
+netmask 255.255.255.0
+network 192.168.100.0
+broadcast 192.168.100.255
+#gateway 192.168.100.254
+#dns-nameservers
+#dns-search
+#hwaddress ether 00:01:02:a5:09:17
+
+iface eth6 inet static
+address 153.19.250.142
+netmask 255.255.255.240
+network 153.19.250.128
+broadcast 153.19.250.143
+gateway 153.19.250.129
+dns-nameservers 153.19.250.100
+#dns-search
+#hwaddress ether 00:01:02:a5:10:10
+
+iface eth7 inet static
+address 192.168.200.43
+netmask 255.255.255.0
+network 192.168.200.0
+broadcast 192.168.200.255
+#gateway 192.168.200.254
+#dns-nameservers 153.19.250.100
+#dns-search
+#hwaddress ether 00:01:02:a5:10:00
+up ip route add 192.168.103.0/24 via 192.168.200.254 dev eth7
+down ip route del 192.168.103.0/24 via 192.168.200.254 dev eth7
+

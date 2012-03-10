@@ -1,0 +1,22 @@
+#!/bin/bash
+###########################################################
+#                   LOCAL Firewall
+#
+# Zestaw regul lokalnych, tutaj nalezy dopisywac
+# wlasne definicje
+#
+###########################################################
+
+source /etc/mgr/config
+
+IPTABLES=/sbin/iptables
+
+###############
+# >>> START <<<
+
+
+
+
+
+# >>>  END  <<<
+###############

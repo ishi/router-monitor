@@ -1,8 +1,0 @@
--P FORWARD DROP
--A FORWARD -m state --state INVALID -j DROP
--A FORWARD -j check-flags
--A FORWARD -o lo -j ACCEPT
--A FORWARD -j allow-ssh-traffic-in
--A FORWARD -j allow-www-traffic-out
--A FORWARD -j allowed-connection
-test

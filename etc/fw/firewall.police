@@ -1,0 +1,12 @@
+#!/bin/bash
+
+IPTABLES=/sbin/iptables
+FWVER=20111106
+
+### Ustawianie POLICE dla lancuchow ###
+
+echo POLICE DROP ALL
+$IPTABLES -P FORWARD DROP
+$IPTABLES -P INPUT DROP
+$IPTABLES -P OUTPUT DROP
+

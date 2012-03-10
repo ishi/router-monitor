@@ -1,0 +1,23 @@
+1. Uruchamiamy screena komendą:
+	
+	$ screen -S <SessionName>
+	
+	Opcja -S nadaję nazwę sesji, co ułatwia wieloma sesjami screena.
+
+2. Dajemy prawo dostępu do sesji wielu użytkownikom:
+	
+	CTRL-A
+	:multiuser on
+	
+3. Nadajemy uprawnienie dla poszczególnych użytkowników używając ich loginów systemowych:
+	
+	CTRL-A
+	:acladd <guest_user>
+	
+4. Użythowik może teraz się połączyć używając polecenia:
+	
+	$ screen -x <host_user>/<SessionName>
+
+
+PROBLEMY
+	

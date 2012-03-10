@@ -1,0 +1,27 @@
+#!/bin/bash
+
+FWVER=20111106
+
+IPTABLES=/sbin/iptables
+IPTABLESSAVE=/sbin/iptables-save
+IPTABLESRESTORE=/sbin/iptables-restore
+
+FWSAVE=/mgr/firewall.save
+FWBACKUP=/mgr/firewal.bu
+FWSDIR=/etc/mgr
+FWSOURCE=/etc/mgr/firewall
+
+# adresy publiczne
+PUBLIC_IP_1=193.34.0.108
+
+# Definicja interfejsow
+IF_WAN_1=brWAN1
+IF_LAN_1=brLAN1
+
+# Dostep do portalu i ssh
+ADM_HOSTS="153.19.0.0/16 192.168.123.0/24"
+
+# podsieci
+NET_LAN_1_TPL="192.168.123"
+NET_LAN_1=${NET_LAN_1_TPL}.0/24
+
