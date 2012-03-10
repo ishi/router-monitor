@@ -6,6 +6,8 @@ class Editor::IptablesController < ApplicationController
   end
 
   def edit
+    @a = `#{File.join(Rails.root, '..', 'etc', 'fw', 'firewall')} gen_przeplyw`
+    
     @rules = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = Array.new } }
     Dir.foreach(conf_dir) do |filename|
       next if (File.directory?(filename) || (/[^.]\.[^.]/ =~ filename).nil?)
