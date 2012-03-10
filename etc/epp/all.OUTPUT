@@ -1,0 +1,9 @@
+-P OUTPUT DROP
+-A OUTPUT -m state --state INVALID -j DROP
+-A OUTPUT -j check-flags
+-A OUTPUT -o lo -j ACCEPT
+-A OUTPUT -j allow-ssh-traffic-out
+-A OUTPUT -j allow-dns-traffic-out
+-A OUTPUT -j allow-www-traffic-out
+-A OUTPUT -j allowed-connection
+

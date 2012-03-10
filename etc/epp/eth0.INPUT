@@ -1,0 +1,9 @@
+-P INPUT DROP
+-A INPUT -m state --state INVALID -j DROP
+-A INPUT -p icmp -j icmp_allowed
+-A INPUT -j check-flags
+-A INPUT -i lo -j ACCEPT
+-A INPUT -j allow-ssh-traffic-in
+-A INPUT -j allowed-connection
+-A INPUT -p icmp -j icmp_allowed
+-A INPUT -p icmp -j icmp_allowed
