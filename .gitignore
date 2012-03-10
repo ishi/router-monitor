@@ -9,4 +9,5 @@ www/public/assets/
 www/public/charts/
 init_env
 .project
-etc/fw/output.conf\netc/epp/
+etc/fw/output.conf
+etc/epp/

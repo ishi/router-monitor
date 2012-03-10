@@ -13,18 +13,23 @@ $(function() {
 		return rowContainer.find('ul').not(this.parent()[0]);
 	};
 	
+	var autoGrowInput = function(input) {
+		return input.autoGrowInput({comfortZone: 10}).trigger('update');
+	}
+	
 	var handler = {
 		enter: function () {
 			var $input = $(this);
 			var $li = $input.parent();
 			var $new = createEmptyInput($input.data('interface-type'), $input.data('chain-type'));
 			$li.after($('<li></li>').html($new));
-			$new.focus();
+			autoGrowInput($new.focus());
 			var position = $li.index();
 			getLevelBoxList.call($li).each(function () {
-				$($(this).children()[position]).after(
-					$('<li></li>').html(createEmptyInput($input.data('interface-type'), $(this).data('chain-type')))
-				);
+				var $input = $('<li></li>').html(
+					createEmptyInput($input.data('interface-type'), $(this).data('chain-type')))
+				$($(this).children()[position]).after($input);
+				autoGrowInput($input);
 			});
 			return false;
 		},
@@ -65,8 +70,10 @@ $(function() {
 			});
 			
 			$(this).find('li').each(function () {
-				var $li = $(this);
-				$li.html( createEmptyInput(interfaceName, chainType).val($li.text()));
+				var $li = $(this),
+					$input = createEmptyInput(interfaceName, chainType).val($li.text())
+				$li.html($input);
+				autoGrowInput($input);
 			});
 		});
 	});

@@ -6,7 +6,8 @@ class Editor::IptablesController < ApplicationController
   end
 
   def edit
-    @a = `#{File.join(Rails.root, '..', 'etc', 'fw', 'firewall')} gen_przeplyw`
+    `#{File.join(Rails.root, '..', 'etc', 'fw', 'firewall')} gen_przeplyw` 
+    return if @importError = !$?.success?
     
     @rules = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = Array.new } }
     Dir.foreach(conf_dir) do |filename|

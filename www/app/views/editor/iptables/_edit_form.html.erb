@@ -8,7 +8,12 @@
 		<%= render :partial => 'box', :locals => { :chain => :FORWARD, :rules => irules } %>
 		<div class="table">
 			<div>
-				<div class="image"><%= image_tag "iptables/all/dpp-1-1.png", :alt => nil, :class => "td" %></div>
+				<div class="image">
+					<div class="interface-name">
+						<%= image_tag "iptables/all/dpp-1-1.png", :alt => nil, :class => "td" %>
+						<span><%= interface %></span>
+					</div>
+				</div>
 				<div class="image"><%= image_tag "iptables/all/dpp-1-2.png", :alt => nil, :class => "td" %></div>
 				<div class="image"><%= image_tag "iptables/all/dpp-1-3.png", :alt => nil, :class => "td" %></div>
 			</div>

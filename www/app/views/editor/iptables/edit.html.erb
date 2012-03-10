@@ -1,6 +1,8 @@
-<%= "#{@a}: dupa        !!!!!!!!!!!!!!!!!!!!!!!!!!!!  #{$?}" %>
-
-<% if @rules.blank? -%>
+<% if @importError -%>
+	<div id="iptables-editor">
+		Błąd podcza wczytywania regół iptables
+	</div>
+<% elsif @rules.blank? -%>
 	<div id="iptables-editor">
 		Brak regół do wyświetlenia
 	</div>
