@@ -61,16 +61,20 @@ sourcee() {
     echo
 }
 
-przeplyw() {
+gen_przeplyw() {
+	for test in INPUT OUTPUT FORWARD POSTROUTING PREROUTING
+	do
+		iptables -S | grep $test > /app/etc/epp/all.$test
+	done
+}
 
+wczyt_przeplyw() {
+	rm /app/etc/fw/output.conf
 
-for test in INPUT OUTPUT FORWARD POSTROUTING PREROUTING
-do
-
-iptables -S | grep $test > /app/etc/epp/all.$test
-
-done
-
+	for test in INPUT OUTPUT FORWARD POSTROUTING PREROUTING
+	do
+		cat "/app/etc/epp/all.$test" >> /app/etc/fw/output.conf
+	done
 }
 
 
@@ -124,8 +128,12 @@ case "$1" in
   rm-sv)
     rm ${FW_SAVE_DIR}/save_${2}
     ;;
-  przeplyw)
-    przeplyw
+  gen_przeplyw)
+    gen_przeplyw
+    ;;
+  wczyt_przeplyw)
+    wczyt_przeplyw
+    $iptrs < "/app/etc/fw/output.conf"
     ;;
   *)
     infobaner
