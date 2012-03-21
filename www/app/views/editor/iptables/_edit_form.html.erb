@@ -1,5 +1,5 @@
 
-<%= form_tag iptables_path, :method => 'put' do %>
+<%= form_tag iptables_path, :method => 'put', :id => 'iptables-editor-form' do %>
 	<%= submit_tag "Zapisz", :class => 'button' %>
 <div id="iptables-editor">
 	<% rules.each do |interface, irules|

@@ -26,6 +26,7 @@
 		margin: 0 auto;
 		background: white;
 		display: table;
+		width: 100%;
 	}
 	
 	.table > div {
@@ -96,10 +97,13 @@
 	}
 	
 	li {
-		input {
+		padding: 0 4px;
+		
+		div[contenteditable] {
 			font-size: 10px;
-			width: 99%;
-			background: inherit;
+			width: 100%;
+			line-height: 18px;
+			height: 18px;
 			border: 0;
 			border-bottom: 1px solid black;
 		}

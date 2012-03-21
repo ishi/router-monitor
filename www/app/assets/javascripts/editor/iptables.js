@@ -4,7 +4,7 @@
 $(function() {
 	
 	var createEmptyInput = function (interfaceName, chainType) {
-		return $('<input type="text" name="rules[' + interfaceName + '][' + chainType + '][]" />')
+		return $('<div name="rules[' + interfaceName + '][' + chainType + '][]" contenteditable="true"/>')
 					.data('interface-type', interfaceName).data('chain-type', chainType);
 	};
 	
@@ -13,9 +13,6 @@ $(function() {
 		return rowContainer.find('ul').not(this.parent()[0]);
 	};
 	
-	var autoGrowInput = function(input) {
-		return input.autoGrowInput({comfortZone: 10}).trigger('update');
-	}
 	
 	var handler = {
 		enter: function () {
@@ -23,29 +20,56 @@ $(function() {
 			var $li = $input.parent();
 			var $new = createEmptyInput($input.data('interface-type'), $input.data('chain-type'));
 			$li.after($('<li></li>').html($new));
-			autoGrowInput($new.focus());
+			$new.focus();
 			var position = $li.index();
 			getLevelBoxList.call($li).each(function () {
+				
 				var $input = $('<li></li>').html(
 					createEmptyInput($input.data('interface-type'), $(this).data('chain-type')))
 				$($(this).children()[position]).after($input);
-				autoGrowInput($input);
 			});
 			return false;
 		},
 		backspace: function () {
 			var $input = $(this);
-			if (!$input.val()) {
-				var $li = $input.parent();
-				$li.parent().append($li);
-				getLevelBoxList.call($li).each(function () {
-					
-			});
+			if (!$input.text()) {
+				var $li = $input.parent(),
+					$ul = $li.parent();
+					$prev = $li.prev();
+				var remove = true;
+				var thisSize = 0;
+				if ($ul.find('div[contenteditable]').length < 2) {
+					remove = false;
+				} else {
+					$ul.find('div[contenteditable]').each(function () {
+						if ($(this).text()) {
+							thisSize++;
+						}
+					})
+					getLevelBoxList.call($li).each(function () {
+						var size = 0
+						$(this).find('div[contenteditable]').each(function () {
+							if ($(this).text()) {
+								size++;
+							}
+						})
+						if(thisSize < size) {
+							remove = false;
+						}	
+					});
+				}
+				if (remove) {
+					getLevelBoxList.call($li).children().last().remove();
+					$li.remove();
+				} else {
+					$li.parent().append($li);
+				}
+				$prev.children().first().focus();
 			}		
 		}
 	}
 	
-	$(document).on('keydown', 'input[type="text"]', function(event) {
+	$(document).on('keydown', 'div[contenteditable]', function(event) {
 		switch(event.keyCode) {
 			case 13: return handler.enter.call(this);
 			case 8: return handler.backspace.call(this); 
@@ -71,10 +95,18 @@ $(function() {
 			
 			$(this).find('li').each(function () {
 				var $li = $(this),
-					$input = createEmptyInput(interfaceName, chainType).val($li.text())
+					$input = createEmptyInput(interfaceName, chainType).html($li.text())
 				$li.html($input);
-				autoGrowInput($input);
 			});
 		});
+	});
+
+	$('#iptables-editor-form').on('submit', function () {
+		$(this).find('div[contenteditable]').each(function () {
+			var input = $('<input type="hidden" />');
+			input.attr('name', $(this).attr('name'));
+			input.val($(this).text());
+			$(this).before(input);
+		})
 	});
 });

@@ -42,14 +42,13 @@
 					testSubject.detach();
                     // Animate width
                     if (isValidWidthChange) {
+			input.parents('.interface').find('input[type="text"]').width('100%');
                         input.width(newWidth);
-                    } else {
-                    	input.width('100%');
                     }
 
                 };
 
-            $(this).bind('keyup blur update', check);
+            $(this).bind('keypress blur update', check);
 
         });
 
