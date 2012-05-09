@@ -1,11 +1,15 @@
 #encoding: UTF-8
 
-class EditorController < ApplicationController
+class Editor::ConfigsController < ApplicationController
   @@types = {
     'interfaces' => '/etc/network/interfaces'
   }
   before_filter :set_params
   
+  def show
+    redirect_to :action => :show
+  end
+
   def edit
     @content = ''
     return unless 
@@ -25,7 +29,7 @@ class EditorController < ApplicationController
       render 'edit'
       return
     end
-    redirect_to edit_editor_url(@type), :notice => "Zapisano plik"
+    redirect_to edit_config_url(@type), :notice => "Zapisano plik"
   end
   
 private

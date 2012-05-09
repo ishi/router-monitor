@@ -1,4 +1,4 @@
-<%= form_tag editor_path(@type), :method => "put"  do -%>
+<%= form_tag config_path(@type), :method => "put"  do -%>
 	<%= label_tag(:file, "Plik do edycji:") %>
 	<%= text_field_tag(:file, @file) %> 
 	<%= submit_tag("Otwórz") %>

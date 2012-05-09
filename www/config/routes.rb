@@ -4,10 +4,9 @@ RouterMonitor::Application.routes.draw do
 
   namespace :editor, :as => '' do
     resource :iptables, :only => [:show, :edit, :update]
-    
-    get "/(:type)" => 'editor#edit', :as => :edit_editor
-    put "/(:type)" => 'editor#update', :as => :editor
-    
+    resource :config, :only => [:show, :edit, :update] do
+      get "/(:type)" => 'configs#edit', :as => :edit
+    end
   end
 
   scope "/statistics" do
