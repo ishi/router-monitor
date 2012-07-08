@@ -9,6 +9,11 @@ RouterMonitor::Application.routes.draw do
     end
   end
 
+  namespace :wizard do
+      get "/zones" => "zones#index"
+      post "/zones" => "zones#update"
+  end
+
   scope "/statistics" do
   	resources :statistic_values, :path => "values" do
   	  member do

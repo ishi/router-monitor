@@ -1,0 +1,48 @@
+<h1>Editing wizard_zone</h1>
+
+<%= form_tag wizard_zones_path do |f| %>
+
+  <table>
+    <tr>
+      <th> Nazwa </th>
+      <th> Typ </th>
+      <th> Ip </th>
+      <th> Maska </th>
+      <th> Gateway </th>
+      <th> DNS </th>
+      <th> Interface </th>
+    </tr>
+    <% lp = 0 -%>
+    <% for @zone in @zones -%>
+      <% if @zone.errors.any? %>
+      <tr>
+        <td colspan="6">
+          <h2><%= pluralize(@zones.errors.count, "error") %> prohibited this wizard_zone from being saved:</h2>
+
+          <ul>
+            <% @zones.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <%= fields_for "zone[#{lp += 1}]", @zone do |f| %>
+        <td><%= f.text_field :name %></td>
+        <td><%= f.text_field :type %></td>
+        <td><%= f.text_field :ip %></td>
+        <td><%= f.text_field :mask %></td>
+        <td><%= f.text_field :gateway %></td>
+        <td><%= f.text_field :dns %></td>
+        <td><%= f.text_field :interface %></td>
+      <% end %>
+    </tr>
+  <% end -%>
+  </table>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+
+<% end %>

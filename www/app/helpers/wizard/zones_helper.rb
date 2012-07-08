@@ -1,0 +1,2 @@
+module Wizard::ZonesHelper
+end
