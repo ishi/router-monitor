@@ -1,12 +1,14 @@
 class Wizard::ZonesController < ApplicationController
   def index
-    @zones = Zone.all
+    @zones = Zone.all || [Zone.new]
   end
 
   def update
     @zones = []
-    for lp, z in params[:zone] do
-      @zones << Zone.new(z)
+    params[:zone].each do |k, z|
+      zone = Zone.new(z)
+      zone.valid?
+      @zones << zone
     end
 
     render :index

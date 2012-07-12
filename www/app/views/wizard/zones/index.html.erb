@@ -1,48 +1,66 @@
-<h1>Editing wizard_zone</h1>
+<h1>Edycja stref</h1>
 
+<% @zones %>
+
+<%
+  table = {:error => [], :name => [], :type => [], :ip => [], :mask => [], :gateway => [], :dns => [], :interface => []}
+  lp = 0
+  for @zone in @zones do
+    error = nil
+    if @zone.errors.any?
+      was_errors = true
+      error = '<ul>' + @zone.errors.map {|name, msg| "<li>#{msg}</li>"}.join + '</ul>'
+    end
+    table[:error] << error
+
+    fields_for "zone[#{lp += 1}]", @zone do |f|
+      table[:name] << f.text_field(:name)
+      table[:type] << f.select(:type, options_for_select(['WAN', 'DMZ', 'LAN', 'WIFI'], @zone.type), {}, {:class => 'zone-type'})
+      table[:ip] << f.text_field(:ip)
+      table[:mask] << f.text_field(:mask)
+      table[:gateway] << f.text_field(:gateway)
+      table[:dns] << f.text_field(:dns)
+      table[:interface] << f.select(:interface, options_for_select(['eth0', 'eth1'], @zone.type), {}, {:class => 'zone-type'})
+    end
+  end
+%>
+
+<%= raw '<h3>Wystapily bledy podczas zapisu konfiguracji</h3>' if was_errors %>
 <%= form_tag wizard_zones_path do |f| %>
-
   <table>
     <tr>
-      <th> Nazwa </th>
-      <th> Typ </th>
-      <th> Ip </th>
-      <th> Maska </th>
-      <th> Gateway </th>
-      <th> DNS </th>
-      <th> Interface </th>
+      <td></td><%= raw table[:error].map {|x| "<td>#{x}</td>" } .join %>
     </tr>
-    <% lp = 0 -%>
-    <% for @zone in @zones -%>
-      <% if @zone.errors.any? %>
-      <tr>
-        <td colspan="6">
-          <h2><%= pluralize(@zones.errors.count, "error") %> prohibited this wizard_zone from being saved:</h2>
-
-          <ul>
-            <% @zones.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-    <% end %>
-
     <tr>
-      <%= fields_for "zone[#{lp += 1}]", @zone do |f| %>
-        <td><%= f.text_field :name %></td>
-        <td><%= f.text_field :type %></td>
-        <td><%= f.text_field :ip %></td>
-        <td><%= f.text_field :mask %></td>
-        <td><%= f.text_field :gateway %></td>
-        <td><%= f.text_field :dns %></td>
-        <td><%= f.text_field :interface %></td>
-      <% end %>
+      <th> Nazwa </th>
+      <%= raw table[:name].map {|x| "<td>#{x}</td>" } .join %>
     </tr>
-  <% end -%>
+    <tr>
+      <th> Typ </th>
+      <%= raw table[:type].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
+    <tr>
+      <th> Ip </th>
+      <%= raw table[:ip].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
+    <tr>
+      <th> Maska </th>
+      <%= raw table[:mask].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
+    <tr>
+      <th> Gateway </th>
+      <%= raw table[:gateway].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
+    <tr>
+      <th> DNS </th>
+      <%= raw table[:dns].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
+    <tr>
+      <th> Interface </th>
+      <%= raw table[:interface].map {|x| "<td>#{x}</td>" } .join %>
+    </tr>
   </table>
   <div class="actions">
     <%= submit_tag %>
   </div>
-
 <% end %>
