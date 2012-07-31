@@ -3,7 +3,7 @@ class Zone
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :name, :type, :ip, :mask, :gateway, :dns, :interface
+  attr_accessor :name, :type, :method, :ip, :mask, :gateway, :dns, :interface
   validates :name, :presence => { :message => 'Podaj nazwe strefy' }
 
   def initialize(attributes = {})
