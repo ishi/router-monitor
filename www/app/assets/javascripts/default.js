@@ -10,4 +10,6 @@ $(function() {
 				.delay(hideInterval).fadeOut();
 		hideInterval += intervalStep;
 	})
+  // style dla tabelek
+  $("table.grid").styleTable();
 });

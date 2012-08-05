@@ -105,7 +105,14 @@ table {
   }
 }
 
+div.command-buttons {
+  margin: 5px;
 
+  span.ui-button-text {
+    line-height: inherit;
+    padding: 0.2em 0.6em;
+  }
+}
 
 #page-content {
   margin-top: 15px;
@@ -117,24 +124,8 @@ table {
     height: 90%;
   }
   
-  .ui-button {
-    margin: .5em;
-    
-    .ui-button-text {
-      padding: .3em 1em;
-    }
-  }
-  
-  input.ui-button {
-    padding: .4em 1em;
-  }
-
   .data-list {
     border-collapse: collapse;
-    
-    .ui-button {
-      margin: 0em;
-    }
 
     th {
       border-bottom: 1px solid black;

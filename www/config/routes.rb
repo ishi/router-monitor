@@ -1,5 +1,4 @@
 RouterMonitor::Application.routes.draw do
-
   get "profile/change/:type" => 'profile#change', :as => :profile_change
 
   namespace :editor, :as => '' do
@@ -12,6 +11,7 @@ RouterMonitor::Application.routes.draw do
   namespace :wizard do
       get "/zones" => "zones#index"
       post "/zones" => "zones#update"
+      root :to => 'zones#index'
   end
 
   scope "/statistics" do

@@ -1,13 +1,19 @@
 .zones {
   table {
+    width: 100%;
+
     th {
-      width: 100px;
-      text-align: right;
-      padding-right: 10px;
+      text-align: center;
+      white-space: nowrap;
     }
 
     input {
       width: 150px;
     }
+  }
+
+  div#add-form th {
+    text-align: right;
+    padding-right: 10px;
   }
 }
