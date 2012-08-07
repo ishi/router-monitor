@@ -15,20 +15,36 @@ class Zone
     end
   end
 
+  def method
+    @method ||= 'DHCP'
+  end
+
   def persisted?
     @persisted
+  end
+
+  def method_dhcp?
+    'DHCP' == method
   end
 
   class << self
     def all
       @zones ||= lambda {
-        zones = []
+        zones = {}
         zone = nil
         new_zone = false
-        File.new(Interfaces_path, "r").each_line do |line|
+        interface_file_lines = File.readlines(Interfaces_path)
+
+        while line = interface_file_lines.shift do
           zone = nil if stanza_line? line
-          if new_zone? line
-            zones << zone = create_zone(line) and next
+          if mapping_lines_start? line
+            zone = parse_mapping_lines line, interface_file_lines, zones
+            next
+          end
+
+          if address_lines_start? line
+            zone = parse_address_lines line, interface_file_lines, zones
+            next
           end
           next if zone.nil?
           if line =~ /^\s*address\s+(.+)\s*$/ then zone.ip = $1 and next end
@@ -36,7 +52,7 @@ class Zone
           if line =~ /^\s*gateway\s+(.+)\s*$/ then zone.gateway = $1 and next end
           if line =~ /^\s*dns-nameservers\s+(.+)\s*$/ then zone.dns = $1 and next end
         end
-        zones
+        zones.values
       }.call
     end
 
@@ -47,16 +63,36 @@ class Zone
     private
 
     def stanza_line? line
-      line =~ /^\*(auto |allow-|iface |mapping |source )/
+      line =~ /^\s*(auto\s+|allow-|iface\s+|mapping\s+|source\s+)/
     end
 
-    def new_zone? line
-      line =~ /^\s*iface/
+    def mapping_lines_start? line
+      line =~ /^\s*mapping/
     end
 
-    def create_zone line
-      line =~ /^\s*iface\s+(\w+)\s+\w+\s+(\w+)\s*$/
-      Zone.new(:name => $1, :method => $2)
+    def parse_mapping_lines line, interface_file_lines, zones
+      line =~ /^\s*mapping\s+(\w+)\s*$/
+      interface = $1
+      interface_file_lines.shift
+      interface_file_lines.shift =~ /^\s*map*\s+([^\s]+)\s*$/
+      name, type = $1.gsub(/_/, ' ').split '-'
+      find_or_create_zone zones, {:interface => interface, :name => name, :type => type}
+    end
+
+    def address_lines_start? line
+      line =~ /^\s*iface\s/
+    end
+
+    def parse_address_lines line, interface_file_lines, zones
+      Rails.logger.debug line =~ /^\s*iface\s+([^\s]+)\s+\w+\s+(\w+)\s*$/
+      method = $2.upcase
+      name, type = $1.gsub(/_/, ' ').split '-'
+      find_or_create_zone zones, {:name => name, :type => type, :method => method}
+    end
+
+    def find_or_create_zone zones, params
+      return nil if !params[:name]
+      zones[:"#{params[:name]}"] ||= Zone.new(params)
     end
   end
 end
