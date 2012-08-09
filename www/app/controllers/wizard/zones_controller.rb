@@ -4,11 +4,7 @@ class Wizard::ZonesController < ApplicationController
   end
 
   def update
-    zone = Zone.new(params[:zone])
-    zone.valid?
-
-    @zones = Zone.all
-
-    render :index
+    @zone = Zone.new(params[:zone])
+    @zone.save
   end
 end

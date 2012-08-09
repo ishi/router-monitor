@@ -1,0 +1,14 @@
+<% if @zone.errors.any? %>
+  var errors = <%= raw @zone.errors.to_json %>;
+  var form = $('div#add-form');
+  $('.error', form).remove();
+  for (var field in errors) {
+    $('#zone_' + field, form).parents('tr:first').before('<tr class="error"><td colspan="2">' + errors[field] + '</td></tr>');
+  }
+<% else %>
+  var new_row = $('<%= escape_javascript render(@zone) %>');
+  new_row.find('td').addClass("ui-widget-content");
+  $('div#add-form .error').remove();
+  $('table#add-destination tbody').append(new_row);
+  $('div#add-form').dialog('close');
+<% end %>

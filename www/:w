@@ -11,18 +11,13 @@
       $this.addClass(options.css);
 
       $this.on('mouseover mouseout', 'tbody tr', function (event) {
-        if ($(this).data('selected-row')) return;
+        if ($(this).data('not-toogle-hover')) return;
         $(this).children().toggleClass("ui-state-hover",
                                        event.type == 'mouseover');
       });
 
       $this.on('click', 'tbody tr', function () {
-        var $parent = $(this).parent();
-        $('.ui-state-hover', $parent).removeClass('ui-state-hover');
-        $('tr', $parent).data('selected-row', false);
-        $(this).children().addClass('ui-state-hover');
-        $(this).data('selected-row', !$(this).data('selected-row'));
-      });
+        $(this).data('not-toogle-hover', !$(this).data('not-toogle-hover'));
 
       $this.find("th").addClass("ui-state-default");
       $this.find("td").addClass("ui-widget-content");

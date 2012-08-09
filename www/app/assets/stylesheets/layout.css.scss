@@ -114,6 +114,11 @@ div.command-buttons {
   }
 }
 
+form .error {
+  text-align: center;
+  color: red;
+}
+
 #page-content {
   margin-top: 15px;
   margin-left: $menu-thumbnail-width + 15px;
@@ -158,5 +163,9 @@ div.command-buttons {
     &.less-important {
       
     }
+  }
+
+  .ui-state-hover {
+    cursor: pointer;
   }
 }

@@ -1,0 +1,43 @@
+<div id="add-form">
+  <div>
+    <% @empty_zone = Zone.new %>
+    <%= form_for @empty_zone, :url => wizard_zones_path, :remote => true do |f| %>
+      <table>
+        <tr>
+          <th><%= f.label :name, 'Nazwa strefy' %></th>
+          <td><%= f.text_field(:name) %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :type, 'Typ strefy' %></th>
+          <td><%= f.select(:type, options_for_select(['WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type'}) %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :method, 'Metoda adresacji' %></th>
+          <td><%= f.select(:method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method'}) %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :ip, 'IP' %></th>
+          <td><%= f.text_field :ip, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :mask, 'Maska' %></th>
+          <td><%= f.text_field :mask, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :gateway, 'Gateway' %></th>
+          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :dns, 'DNS' %></th>
+          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :interface, 'Interface' %></th>
+          <td><%= f.select(:interface, options_for_select(Zone.interfaces), {}, {:class => 'interface'}) %></td>
+        </tr>
+      </table>
+
+      <%= submit_tag %>
+    <% end %>
+  </div>
+</div>

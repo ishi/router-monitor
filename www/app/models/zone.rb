@@ -8,6 +8,8 @@ class Zone
 
   attr_accessor :name, :type, :method, :ip, :mask, :gateway, :dns, :interface
   validates :name, :presence => { :message => 'Podaj nazwe strefy' }
+  validates :ip, :presence => { :message => 'Podaj IP dla strefy' }, :unless => :method_dhcp?
+  validates :mask, :presence => { :message => 'Podaj maske dla strefy' }, :unless => :method_dhcp?
 
   def initialize(attributes = {})
     attributes.each do |name, value|
@@ -21,6 +23,11 @@ class Zone
 
   def persisted?
     @persisted
+  end
+
+  def save
+    return false unless valid?
+    return true
   end
 
   def method_dhcp?
@@ -57,7 +64,7 @@ class Zone
     end
 
     def interfaces
-      @interfaces ||= `ip l | grep -ve '^\s' | cut -d' ' -f 2 |  tr ':\n' ' '`.split /\s+/
+      @interfaces ||= [''] + `ip l | grep -ve '^\s' | cut -d' ' -f 2 |  tr ':\n' ' '`.split(/\s+/)
     end
 
     private
