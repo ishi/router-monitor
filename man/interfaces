@@ -1,0 +1,317 @@
+#	ifup --allow=hotplug  eth0  eth1
+##
+# mapping skrypty: 
+#	/usr/share/doc/ifupdown/examples
+####################################################
+
+stanzy: iface/mapping/auto/allow-auto/allow-hotplug/source
+
+>>IFACE<<
+	options: pre-up/up/post-up//pre-down/down/post-down
+	access:  iface/logical/addrfam/method/mode/phase/verbosity/path
+
+	METODY INET:  LOOPBACK/STATIC/MANUAL/DHCP/BOOTP/TUNNEL/PPP/WVDIAL/IPV4LL
+
+		LOOPBACK ---
+		STATIC	address/netmask/broadcast/network/metric/gateway/media/pointopoint/hwaddress/mtu
+		MANUAL	 ---
+		DHCP	hostname/leasehours/leasetime/vendor/client/hwaddress
+		BOOTP	bootfile/server/hwaddt
+		TUNNEL	address/mode/endpoint/dstaddr/local/gateway/ttl/mtu
+		PPP	provider/unit/options
+		WVDIAL	provider
+		IPV4LL	 ---
+		
+	METODY IPX:   STATIC/DYNAMIC
+
+		STATIC	frame/netnum
+		DYNAMIC	frame
+
+	METODY INET6: AUTO/LOOPBACK/STATIC/MANUAL/DHCP/V4TUNNEL/6TO4
+
+		AUTO	privext/dhcp
+		LOOPBACK ---
+		STATIC	address/netmask/gateway/media/hwaddress/mtu/accept_ra/autoconf/privext
+		MANUAL	 ---
+		DHCP	hwaddress
+		V4TUNNEL address/netmask/endpoint/local/gateway/ttl/mtu
+		6TO4	local/ttl/mtu
+
+	METODY CAN:   STATIC bitrate/samplepoint/loopback/listenonly/triple/oneshot/berr
+
+>>MAPPING<<
+
+       mapping eth0
+            script /usr/local/sbin/map-scheme
+            map HOME eth0-home
+            map WORK eth0-work
+
+       iface eth0-home inet static
+            address 192.168.1.1
+            netmask 255.255.255.0
+            up flush-mail
+
+       iface eth0-work inet dhcp
+
+--------------------------------------
+!! PRZYKLADY !!
+--------------------------------------
+
+>>TEST<<
+
+# auto eth0
+# iface eth0 inet dhcp
+#     pre-up [ -f /etc/network/local-network-ok ]
+#
+# ? interfejs podniesie sie gdy bedzie istnial plik
+
+# auto eth0 eth1
+# iface eth0 inet static
+#     address 192.168.42.1
+#     netmask 255.255.255.0
+#     pre-up /path/to/check-mac-address.sh eth0 11:22:33:44:55:66
+#     pre-up /usr/local/sbin/enable-masq
+# iface eth1 inet dhcp
+#     pre-up /path/to/check-mac-address.sh eth1 AA:BB:CC:DD:EE:FF
+#     pre-up /usr/local/sbin/firewall
+
+# auto eth0 eth1
+# mapping eth0 eth1
+#     script /path/to/get-mac-address.sh
+#     map 11:22:33:44:55:66 lan
+#     map AA:BB:CC:DD:EE:FF internet
+# iface lan inet static
+#     address 192.168.42.1
+#     netmask 255.255.255.0
+#     pre-up /usr/local/sbin/enable-masq $IFACE
+# iface internet inet dhcp
+#     pre-up /usr/local/sbin/firewall $IFACE
+
+>>ALIAS<<
+
+# auto eth0 eth0:1
+# iface eth0 inet static
+#     address 192.168.0.100
+#     network 192.168.0.0
+#     netmask 255.255.255.0
+#     broadcast 192.168.0.255
+#     gateway 192.168.0.1
+# iface eth0:1 inet static
+#     address 192.168.0.200
+#     network 192.168.0.0
+#     netmask 255.255.255.0
+
+>>BRIDGE<<
+
+auto br0
+iface br0 inet static
+        address 192.168.0.10
+        network 192.168.0.0
+        netmask 255.255.255.0
+        broadcast 192.168.0.255
+        gateway 192.168.0.1
+        bridge_ports eth0
+        bridge_fd 9
+        bridge_hello 2
+        bridge_maxage 12
+        bridge_stp off
+
+>>VLAN<<
+
+sudo apt-get install vlan
+sudo modprobe 8021q
+/etc/modules
+---
+  1 # Interfejsy sieciowe - on/off
+  2 
+  3         # Interfejs sieciowy loopback
+  4         auto lo
+  5         iface lo inet loopback
+  6 
+  7         auto eth0
+  8         iface eth0 inet manual
+  9                 up ifconfig eth0 up
+ 10 
+ 11 # vlan 123
+ 12 auto eth0.123
+ 13 iface eth0.123 inet manual
+ 14         up ifconfig eth0.123 up
+ 15 
+ 16 auto tap123
+ 17 iface tap123 inet manual
+ 18         up ip tuntap add tap123 mode tap
+ 19         post-up ip link set tap123 up
+ 20         down ip tuntap del dev tap123
+ 21 
+ 22 auto br123
+ 23 iface br123 inet static
+ 24         address 192.168.123.1
+ 25         netmask 255.255.255.0
+ 26         network 192.168.123.0
+ 27         broadcast 192.168.123.255
+ 28         bridge_ports eth0.123 tap123
+ 29         bridge_maxwait 1
+ 30         bridge_fd 0
+ 31         bridge_stp off
+
+---
+EXTRA IFACE OPTIONS
+
+       Usually  someone  who  uses  vlans  also  wants  to   do   some   other
+       manipulations with the ip stack or interface.
+
+       vlan-raw-device devicename
+              Indicates  the  device  to  create the vlan on.  This is ignored
+              when the devicename is part of the vlan interface name.
+
+       ip-proxy-arp 0|1
+              Turn proxy-arp off or on for this specific interface.  This also
+              works on plain ethernet like devices.
+
+       ip-rp-filter 0|1|2
+              Set  the  return  path filter for this specific interface.  This
+              also works on plain ethernet like devices.
+
+       hw-mac-address mac-address
+              This sets the mac address of the interface  before  bringing  it
+              up.   This  works on any device that allows setting the hardware
+              address with the ip command.
+
+---
+iface vlan1 inet static
+ vlan-raw-device eth0
+ address 192.168.1.1
+ netmask 255.255.255.0
+---
+auto eth0.100
+ iface eth0.100 inet manual
+ up ifconfig eth0.100 up
+---
+iface eth1.8 inet manual
+vlan-raw-device eth1
+
+auto br-vlan8
+iface br-vlan8 inet manual
+bridge_ports eth1.8
+bridge_fd 9
+bridge_hello 2
+bridge_maxage 12
+bridge_stp off
+up /sbin/ifconfig $IFACE up || /bin/true
+---
+
+>>BONDING<<
+
+http://www.kernel.org/doc/Documentation/networking/bonding.txt
+---
+http://www.stgraber.org/2012/01/04/networking-in-ubuntu-12-04-lts/
+	# Trunk to sw01
+	auto eth0
+	iface eth0 inet manual
+	    bond-master bond0
+
+	auto eth1
+	iface eth1 inet manual
+	    bond-master bond0
+
+	auto bond0
+	iface bond0 inet manual
+	    bond-slaves none
+	    bond-mode 802.3ad
+	    bond-miimon 100
+
+	## Network bridge for LAN
+	auto br1000
+	iface br1000 inet manual
+
+	    # Initialize the bridge
+	    bridge_ports bond0.1000
+	    bridge_stp off
+
+	## Network bridge for VOIP
+	auto br1005
+	iface br1005 inet manual
+
+	    # Initialize the bridge
+	    bridge_ports bond0.1005
+	    bridge_stp off
+---
+	 #auto bond0
+	iface bond0 inet manual
+		pre-up ip link set bond0 up
+		up ifenslave bond0 eth0
+		up ifenslave bond0 eth1
+		post-down ifenslave -d bond0 eth0 eth1
+		post-down modprobe  -r bond0
+
+	auto bond0.911
+	 allow-hotplug bond0.911
+	 iface bond0.911 inet static
+		address 10.20.50.18
+		netmask 255.255.255.192
+		network 10.20.50.0
+		broadcast 10.20.50.63
+		gateway 10.20.50.2
+		pre-up /etc/network/bondingstate UP bond0 911
+		post-down /etc/network/bondingstate DOWN bond0 911
+
+	in /etc/network/bondingstate:
+	Code:
+
+	# Script /etc/network/bondingstate
+	# wird aufgerufen aus /etc/network/interfaces
+	# 04.09.2007, no copyright
+	#
+	 
+	# Variablen setzen
+
+	set -x
+	CHANGE_STATE=$1
+	TRUNK=$2
+	VLANID=$3
+
+	case $CHANGE_STATE in
+	  UP)
+	    #egrep "$TRUNK" /etc/network/run/ifstate >/dev/null 2>&1
+	    if [ ! -f /proc/net/bonding/$TRUNK ] ; then
+	      ifup $TRUNK
+	      if [ $? -ne 0 ] ; then
+		exit 1
+	      fi
+	    fi
+	    vconfig add $TRUNK $VLANID
+	    ;;
+
+	  DOWN)
+	    vconfig rem $TRUNK.$VLANID
+	    egrep "$TRUNK\.[0-9]+" /etc/network/run/ifstate >/dev/null 2>&1
+	    if [ $? -ne 0 ] ; then
+	      if [ -z "$VLANID" ] ; then
+		exit 0
+	      else
+		ifdown $TRUNK
+	      fi
+	    fi
+	    ;;
+	esac
+
+	What happens:
+
+	'auto bond0.911' starts setting up the interface.
+	'pre-up' calls bondingstate
+	bondingstate tests whether the bonding module is loaded,
+	then starts bonding, if need be.
+	'iface bond0' enslaves the physical NICs, then returns success
+	bondingstate adds the given vlan ID and returns success
+	'auto bond0.911' configures IP-addresses and returns success
+
+	Configuring additional links is but a copy of 'bond0.911'
+
+	On shutdown, 'post-down /etc/network/bondingstate DOWN bond0 911'
+	calls bondingstate, which in turn checks in /etc/network/run/ifstate
+	whether this is the last vlan interface and if so, shuts down bond0
+	bond0's post-down then will remove the kernel module
+
+	There might be routing issues. Beware of the order in /etc/network/interfaces.
+---
+

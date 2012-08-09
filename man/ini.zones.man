@@ -1,0 +1,29 @@
+[lan.dhcp]
+Type		=	lan
+Method		=	dhcp
+DNS	 	=		; opcja
+Interface	=	eth0
+
+[lan.static]
+Type		=	lan
+Method		=	static
+IP		=	w.x.y.z
+Mask		=	a.a.a.0
+Gateway		=	w.x.y.254
+DNS		=	w.x.y.254
+Interface	=	eth1
+
+[wan.dhcp]
+Type		=	lan
+Method		=	dhcp
+DNS	 	=		; opcja
+Interface	=	eth0
+
+[wan.static]
+Type		=	lan
+Method		=	static
+IP		=	w.x.y.z
+Mask		=	a.a.a.0
+Gateway		=	w.x.y.254
+DNS		=	w.x.y.254
+Interface	=	eth1
