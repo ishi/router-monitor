@@ -1,0 +1,49 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+	# Router & Firewall
+	pre-up iptables-restore < /app/etc/fwr.rules
+	pre-up /sbin/sysctl -w net.ipv4.ip_forward=1
+	post-down /sbin/sysctl -w net.ipv4.ip_forward=0
+	pre-down /sbin/iptables-save > /app/etc/fwb.rules`/bin/dat +%Y%m%d`
+	post-down iptables-restore < /app/etc/fwr.rules
+
+
+# The primary network interface
+auto eth0
+	iface eth0 inet static
+	address 192.168.123.2
+	netmask 255.255.255.0
+	network 192.168.123.0
+	broadcast 192.168.123.255
+	#gateway 192.168.123.1
+	#dns-nameservers 193.34.0.1 8.8.8.8
+	#dns-search
+	#hwaddress ether 00:01:02:a5:10:11
+
+#auto eth1
+	iface eth1 inet dhcp
+	#address 192.168.123.2
+	#netmask 255.255.255.0
+	#network 192.168.123.0
+	#broadcast 192.168.123.255
+	#gateway 192.168.123.1
+	#dns-nameservers 193.34.0.1 8.8.8.8
+	#dns-search
+	#hwaddress ether 00:01:02:a5:10:11
+
+auto eth2
+	iface eth2 inet static
+	address 172.16.123.1
+	netmask 255.255.255.0
+	network 172.16.123.0
+	broadcast 172.16.123.255
+	#gateway
+	#dns-nameservers
+	#dns-search
+	#hwaddress ether 00:01:02:a5:10:11
+
+
