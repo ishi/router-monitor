@@ -59,100 +59,100 @@ stanzy: iface/mapping/auto/allow-auto/allow-hotplug/source
 
 >>TEST<<
 
-# auto eth0
-# iface eth0 inet dhcp
-#     pre-up [ -f /etc/network/local-network-ok ]
-#
-# ? interfejs podniesie sie gdy bedzie istnial plik
+	# auto eth0
+	# iface eth0 inet dhcp
+	#     pre-up [ -f /etc/network/local-network-ok ]
+	#
+	# ? interfejs podniesie sie gdy bedzie istnial plik
 
-# auto eth0 eth1
-# iface eth0 inet static
-#     address 192.168.42.1
-#     netmask 255.255.255.0
-#     pre-up /path/to/check-mac-address.sh eth0 11:22:33:44:55:66
-#     pre-up /usr/local/sbin/enable-masq
-# iface eth1 inet dhcp
-#     pre-up /path/to/check-mac-address.sh eth1 AA:BB:CC:DD:EE:FF
-#     pre-up /usr/local/sbin/firewall
+	# auto eth0 eth1
+	# iface eth0 inet static
+	#     address 192.168.42.1
+	#     netmask 255.255.255.0
+	#     pre-up /path/to/check-mac-address.sh eth0 11:22:33:44:55:66
+	#     pre-up /usr/local/sbin/enable-masq
+	# iface eth1 inet dhcp
+	#     pre-up /path/to/check-mac-address.sh eth1 AA:BB:CC:DD:EE:FF
+	#     pre-up /usr/local/sbin/firewall
 
-# auto eth0 eth1
-# mapping eth0 eth1
-#     script /path/to/get-mac-address.sh
-#     map 11:22:33:44:55:66 lan
-#     map AA:BB:CC:DD:EE:FF internet
-# iface lan inet static
-#     address 192.168.42.1
-#     netmask 255.255.255.0
-#     pre-up /usr/local/sbin/enable-masq $IFACE
-# iface internet inet dhcp
-#     pre-up /usr/local/sbin/firewall $IFACE
+	# auto eth0 eth1
+	# mapping eth0 eth1
+	#     script /path/to/get-mac-address.sh
+	#     map 11:22:33:44:55:66 lan
+	#     map AA:BB:CC:DD:EE:FF internet
+	# iface lan inet static
+	#     address 192.168.42.1
+	#     netmask 255.255.255.0
+	#     pre-up /usr/local/sbin/enable-masq $IFACE
+	# iface internet inet dhcp
+	#     pre-up /usr/local/sbin/firewall $IFACE
 
 >>ALIAS<<
 
-# auto eth0 eth0:1
-# iface eth0 inet static
-#     address 192.168.0.100
-#     network 192.168.0.0
-#     netmask 255.255.255.0
-#     broadcast 192.168.0.255
-#     gateway 192.168.0.1
-# iface eth0:1 inet static
-#     address 192.168.0.200
-#     network 192.168.0.0
-#     netmask 255.255.255.0
+	# auto eth0 eth0:1
+	# iface eth0 inet static
+	#     address 192.168.0.100
+	#     network 192.168.0.0
+	#     netmask 255.255.255.0
+	#     broadcast 192.168.0.255
+	#     gateway 192.168.0.1
+	# iface eth0:1 inet static
+	#     address 192.168.0.200
+	#     network 192.168.0.0
+	#     netmask 255.255.255.0
 
 >>BRIDGE<<
 
-auto br0
-iface br0 inet static
-        address 192.168.0.10
-        network 192.168.0.0
-        netmask 255.255.255.0
-        broadcast 192.168.0.255
-        gateway 192.168.0.1
-        bridge_ports eth0
-        bridge_fd 9
-        bridge_hello 2
-        bridge_maxage 12
-        bridge_stp off
+	auto br0
+	iface br0 inet static
+		address 192.168.0.10
+		network 192.168.0.0
+		netmask 255.255.255.0
+		broadcast 192.168.0.255
+		gateway 192.168.0.1
+		bridge_ports eth0
+		bridge_fd 9
+		bridge_hello 2
+		bridge_maxage 12
+		bridge_stp off
 
 >>VLAN<<
 
-sudo apt-get install vlan
-sudo modprobe 8021q
-/etc/modules
+	sudo apt-get install vlan
+	sudo modprobe 8021q
+	/etc/modules
 ---
-  1 # Interfejsy sieciowe - on/off
-  2 
-  3         # Interfejs sieciowy loopback
-  4         auto lo
-  5         iface lo inet loopback
-  6 
-  7         auto eth0
-  8         iface eth0 inet manual
-  9                 up ifconfig eth0 up
- 10 
- 11 # vlan 123
- 12 auto eth0.123
- 13 iface eth0.123 inet manual
- 14         up ifconfig eth0.123 up
- 15 
- 16 auto tap123
- 17 iface tap123 inet manual
- 18         up ip tuntap add tap123 mode tap
- 19         post-up ip link set tap123 up
- 20         down ip tuntap del dev tap123
- 21 
- 22 auto br123
- 23 iface br123 inet static
- 24         address 192.168.123.1
- 25         netmask 255.255.255.0
- 26         network 192.168.123.0
- 27         broadcast 192.168.123.255
- 28         bridge_ports eth0.123 tap123
- 29         bridge_maxwait 1
- 30         bridge_fd 0
- 31         bridge_stp off
+	  1 # Interfejsy sieciowe - on/off
+	  2 
+	  3         # Interfejs sieciowy loopback
+	  4         auto lo
+	  5         iface lo inet loopback
+	  6 
+	  7         auto eth0
+	  8         iface eth0 inet manual
+	  9                 up ifconfig eth0 up
+	 10 
+	 11 # vlan 123
+	 12 auto eth0.123
+	 13 iface eth0.123 inet manual
+	 14         up ifconfig eth0.123 up
+	 15 
+	 16 auto tap123
+	 17 iface tap123 inet manual
+	 18         up ip tuntap add tap123 mode tap
+	 19         post-up ip link set tap123 up
+	 20         down ip tuntap del dev tap123
+	 21 
+	 22 auto br123
+	 23 iface br123 inet static
+	 24         address 192.168.123.1
+	 25         netmask 255.255.255.0
+	 26         network 192.168.123.0
+	 27         broadcast 192.168.123.255
+	 28         bridge_ports eth0.123 tap123
+	 29         bridge_maxwait 1
+	 30         bridge_fd 0
+	 31         bridge_stp off
 
 ---
 EXTRA IFACE OPTIONS
@@ -178,31 +178,92 @@ EXTRA IFACE OPTIONS
               address with the ip command.
 
 ---
-iface vlan1 inet static
- vlan-raw-device eth0
- address 192.168.1.1
- netmask 255.255.255.0
+	iface vlan1 inet static
+	 vlan-raw-device eth0
+	 address 192.168.1.1
+	 netmask 255.255.255.0
 ---
-auto eth0.100
- iface eth0.100 inet manual
- up ifconfig eth0.100 up
+	auto eth0.100
+	 iface eth0.100 inet manual
+	 up ifconfig eth0.100 up
 ---
-iface eth1.8 inet manual
-vlan-raw-device eth1
+	iface eth1.8 inet manual
+	vlan-raw-device eth1
 
-auto br-vlan8
-iface br-vlan8 inet manual
-bridge_ports eth1.8
-bridge_fd 9
-bridge_hello 2
-bridge_maxage 12
-bridge_stp off
-up /sbin/ifconfig $IFACE up || /bin/true
+	auto br-vlan8
+	iface br-vlan8 inet manual
+	bridge_ports eth1.8
+	bridge_fd 9
+	bridge_hello 2
+	bridge_maxage 12
+	bridge_stp off
+	up /sbin/ifconfig $IFACE up || /bin/true
 ---
 
 >>BONDING<<
 
 http://www.kernel.org/doc/Documentation/networking/bonding.txt
+---
+https://help.ubuntu.com/community/UbuntuBonding
+
+	#Installation
+	#ifenslave is used to attach and detach slave network interfaces to a bonding device.
+
+	sudo apt-get install ifenslave
+
+	#Interface Configuration
+	#Edit your interfaces configuration:
+
+	 sudo vi /etc/network/interfaces
+	#For example, to combine eth0 and eth1 as slaves to your bonding interface:
+
+	 auto eth0
+	 iface eth0 inet manual
+	   bond-master bond0
+
+	 auto eth1
+	 iface eth1 inet manual
+	   bond-master bond0
+
+	 auto bond0
+	 iface bond0 inet static
+	   address 192.168.1.10
+	   gateway 192.168.1.1
+	   netmask 255.255.255.0
+	   bond-mode 802.3ad
+	   bond-miimon 100
+	   bond-lacp-rate 1
+	   bond-slaves none
+	###################################
+	#Checking the bonding interface
+	#Link information is available under /proc/net/bonding/. To check bond0 for example:
+
+	cat /proc/net/bonding/bond0
+		>Ethernet Channel Bonding Driver: v3.5.0 (November 4, 2008)
+
+		>Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+		>Transmit Hash Policy: layer2 (0)
+		>MII Status: up
+		>MII Polling Interval (ms): 100
+		>Up Delay (ms): 0
+		>Down Delay (ms): 0
+
+		>802.3ad info
+		>LACP rate: fast
+		>Aggregator selection policy (ad_select): stable
+		>bond bond0 has no active aggregator
+
+		>Slave Interface: eth1
+		>MII Status: up
+		>Link Failure Count: 0
+		>Permanent HW addr: 00:0c:29:f5:b7:11
+		>Aggregator ID: N/A
+
+		>Slave Interface: eth2
+		>MII Status: up
+		>Link Failure Count: 0
+		>Permanent HW addr: 00:0c:29:f5:b7:1b
+		>Aggregator ID: N/A
 ---
 http://www.stgraber.org/2012/01/04/networking-in-ubuntu-12-04-lts/
 	# Trunk to sw01
@@ -314,4 +375,50 @@ http://www.stgraber.org/2012/01/04/networking-in-ubuntu-12-04-lts/
 
 	There might be routing issues. Beware of the order in /etc/network/interfaces.
 ---
+	Ethernet Bonding modes
+	Ethernet bonding has different modes you can use. You specify the mode for your bonding interface in /etc/network/interfaces. For example:
 
+
+	bond-mode active-backup
+	Descriptions of bonding modes
+	Mode 0
+	balance-rr
+
+	Round-robin policy: Transmit packets in sequential order from the first available slave through the last. This mode provides load balancing and fault tolerance.
+
+	Mode 1
+	active-backup
+
+	Active-backup policy: Only one slave in the bond is active. A different slave becomes active if, and only if, the active slave fails. The bond's MAC address is externally visible on only one port (network adapter) to avoid confusing the switch. This mode provides fault tolerance. The primary option affects the behavior of this mode.
+
+	Mode 2
+	balance-xor
+
+	XOR policy: Transmit based on [(source MAC address XOR'd with destination MAC address) modulo slave count]. This selects the same slave for each destination MAC address. This mode provides load balancing and fault tolerance.
+
+	Mode 3
+	broadcast
+
+	Broadcast policy: transmits everything on all slave interfaces. This mode provides fault tolerance.
+
+	Mode 4
+	802.3ad
+
+	IEEE 802.3ad Dynamic link aggregation. Creates aggregation groups that share the same speed and duplex settings. Utilizes all slaves in the active aggregator according to the 802.3ad specification.
+
+	Prerequisites:
+
+	Ethtool support in the base drivers for retrieving the speed and duplex of each slave.
+	A switch that supports IEEE 802.3ad Dynamic link aggregation. Most switches will require some type of configuration to enable 802.3ad mode.
+	Mode 5
+	balance-tlb
+
+	Adaptive transmit load balancing: channel bonding that does not require any special switch support. The outgoing traffic is distributed according to the current load (computed relative to the speed) on each slave. Incoming traffic is received by the current slave. If the receiving slave fails, another slave takes over the MAC address of the failed receiving slave.
+
+	Prerequisites:
+
+	Ethtool support in the base drivers for retrieving the speed of each slave.
+	Mode 6
+	balance-alb
+
+	Adaptive load balancing: includes balance-tlb plus receive load balancing (rlb) for IPV4 traffic, and does not require any special switch support. The receive load balancing is achieved by ARP negotiation. The bonding driver intercepts the ARP Replies sent by the local system on their way out and overwrites the source hardware address with the unique hardware address of one of the slaves in the bond such that different peers use different hardware addresses for the server.
