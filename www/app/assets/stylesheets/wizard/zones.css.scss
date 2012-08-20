@@ -18,8 +18,8 @@
       padding-right: 10px;
     }
 
-    input[disabled] {
-      background-color: inherit;
+    input[readonly] {
+      background-color: #EEE;
     }
   }
 }

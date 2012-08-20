@@ -2,6 +2,7 @@
   <div>
     <% @empty_zone = Zone.new %>
     <%= form_for @empty_zone, :url => wizard_zones_path, :remote => true do |f| %>
+      <%= f.hidden_field(:old_name) %>
       <table>
         <tr>
           <th><%= f.label :name, 'Nazwa strefy' %></th>
@@ -17,19 +18,19 @@
         </tr>
         <tr>
           <th><%= f.label :ip, 'IP' %></th>
-          <td><%= f.text_field :ip, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :ip, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
           <th><%= f.label :mask, 'Maska' %></th>
-          <td><%= f.text_field :mask, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :mask, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
           <th><%= f.label :gateway, 'Gateway' %></th>
-          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
           <th><%= f.label :dns, 'DNS' %></th>
-          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp', :disabled => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
           <th><%= f.label :interface, 'Interface' %></th>
