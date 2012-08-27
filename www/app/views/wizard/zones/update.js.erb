@@ -9,6 +9,12 @@
   var new_row = $('<%= escape_javascript render(@zone) %>');
   new_row.find('td').addClass("ui-widget-content");
   $('div#add-form .error').remove();
-  $('table#add-destination tbody').append(new_row);
+  var $old = $('table#add-destination tr[data-zone*="\"name\":\"<%= @zone.old_name %>\""]')
+  console.log($old)
+  if ($old.length) {
+    $old.replaceWith(new_row)
+  } else {
+    $('table#add-destination').append(new_row);
+  }
   $('div#add-form').dialog('close');
 <% end %>

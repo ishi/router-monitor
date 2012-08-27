@@ -1,10 +1,11 @@
-<tr>
-  <td data-name="name"><%= zone.name %></td>
-  <td data-name="type"><%= zone.type %></td>
-  <td data-name="method"><%= zone.method %></td>
-  <td data-name="ip"><%= zone.ip %></td>
-  <td data-name="mask"><%= zone.mask %></td>
-  <td data-name="gateway"><%= zone.gateway %></td>
-  <td data-name="dns"><%= zone.dns %></td>
-  <td data-name="interface"><%= zone.interface %></td>
+<tr data-zone='{"name":"<%= zone.name %>", "type":"<%= zone.type %>", "method":"<%= zone.method %>", "ip":"<%= zone.ip %>", "mask":"<%= zone.mask %>", "gateway":"<%= zone.gateway %>", "dns":"<%= zone.dns %>", "interface":"<%= zone.interface %>"}' >
+
+  <td><%= zone.name %></td>
+  <td><%= zone.type %></td>
+  <td><%= zone.method %></td>
+  <td><%= zone.ip %></td>
+  <td><%= zone.mask %></td>
+  <td><%= zone.gateway %></td>
+  <td><%= zone.dns %></td>
+  <td><%= zone.interface %></td>
 </tr>

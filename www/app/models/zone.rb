@@ -9,7 +9,18 @@ class Zone
   attr_accessor :name, :old_name, :type, :method, :ip, :mask, :gateway, :dns, :interface
   validates :name, :presence => { :message => 'Podaj nazwe strefy' }
   validates :ip, :presence => { :message => 'Podaj IP dla strefy' }, :unless => :method_dhcp?
-  validates :mask, :presence => { :message => 'Podaj maske dla strefy' }, :unless => :method_dhcp?
+  validates :mask, 
+    :presence => { :message => 'Podaj maske dla strefy' }, 
+    :format => { :with => /^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$/, :message => 'Niepoprawny format ip' },
+    :unless => :method_dhcp?
+  validates :gateway, 
+    :presence => { :message => 'Dla wybranej konfiguracji typu i metody adresacji parametr jest wymagany' }, 
+    :format => { :with => /^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$/, :message => 'Niepoprawny format ip' },
+    :if => :static_wan?
+  validates :dns, 
+    :presence => { :message => 'Dla wybranej konfiguracji typu i metody adresacji parametr jest wymagany' }, 
+    :format => { :with => /^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$/, :message => 'Niepoprawny format ip' },
+    :if => :static_wan?
 
   def initialize(attributes = {})
     attributes.each do |name, value|
@@ -30,18 +41,34 @@ class Zone
   end
 
   def save
-    replace_definition_in_file if valid?
-    Rails.logger.debug get_file_content.join
+    put_file_content(replace_definition_in_file.join) if valid?
+  end
+
+  def delete
+    put_file_content(remove_interface_mapping && remove_zone_definition) unless zone_name_to_save.blank?
   end
 
   def method_dhcp?
     'DHCP' == method
   end
 
+  def static_wan?
+    'STATIC' == method && 'WAN' == type
+  end
+
   private
 
   def get_file_content
     @interfaces_content ||= self.class.get_interfaces_content
+    @interfaces_content << "\n" unless @interfaces_content.last =~ /^\s*\n$/
+    @interfaces_content
+  end
+
+  def put_file_content(content)
+    File.open(Interfaces_path, 'w') do |f|
+      f.puts content
+    end
+    true
   end
 
   def replace_definition_in_file
@@ -50,6 +77,7 @@ class Zone
 
   def remove_zone_definition
     remove_stanza(/^\s*iface\s+(#{zone_name_to_save(old: true)}|#{old_name})\s+/)
+    remove_stanza(/^\s*auto\s+(#{zone_name_to_save(old: true)}|#{old_name})\s*$/)
   end
 
   def remove_interface_mapping
@@ -66,21 +94,21 @@ class Zone
 
   def add_zone_definition
     content = get_file_content
+    content << "auto #{zone_name_to_save}\n"
     content << "iface #{zone_name_to_save} inet #{method.downcase}\n"
     content << "#" if method_dhcp?
     content << "address #{ip}\n"
     content << "#" if method_dhcp?
     content << "netmask #{mask}\n"
-    content << "#" if method_dhcp?
-    content << "#network 153.19.250.128\n"
-    content << "#broadcast 153.19.250.143\n"
-    content << "#" if method_dhcp?
+    #content << "#" if method_dhcp?
+    content << "#network\n"
+    content << "#broadcast\n"
+    content << "#" unless static_wan?
     content << "gateway #{gateway}\n"
-    content << "#" if method_dhcp?
+    content << "#" unless static_wan?
     content << "dns-nameservers #{dns}\n"
     content << "#dns-search\n"
     content << "#hwaddress ether 00:01:02:a5:10:10\n"
-    content << "\n"
   end
 
   def add_interface_mapping
@@ -89,12 +117,14 @@ class Zone
       "mapping #{interface}\n",
       "\tscript /app/etc/zone-interface-mapping.sh\n",
       "\tmap #{zone_name_to_save}\n",
-      "\n"
     ]
   end
 
   def zone_name_to_save(params = {})
-    "#{(params[:old] ? old_name : name).gsub(/ /, '_')}-#{type}"
+    name_to_save = []
+    name_to_save << (params[:old] ? old_name : name).gsub(/ /, '_')
+    name_to_save << "-#{type}" unless type.blank?
+    name_to_save.join
   end
 
   class << self

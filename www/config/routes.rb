@@ -11,6 +11,7 @@ RouterMonitor::Application.routes.draw do
   namespace :wizard do
       get "/zones" => "zones#index"
       post "/zones" => "zones#update"
+      delete "/zones" => "zones#delete"
       root :to => 'zones#index'
   end
 

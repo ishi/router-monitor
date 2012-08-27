@@ -10,7 +10,7 @@
         </tr>
         <tr>
           <th><%= f.label :type, 'Typ strefy' %></th>
-          <td><%= f.select(:type, options_for_select(['WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type'}) %></td>
+          <td><%= f.select(:type, options_for_select(['', 'WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type'}) %></td>
         </tr>
         <tr>
           <th><%= f.label :method, 'Metoda adresacji' %></th>
@@ -26,11 +26,11 @@
         </tr>
         <tr>
           <th><%= f.label :gateway, 'Gateway' %></th>
-          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
         </tr>
         <tr>
           <th><%= f.label :dns, 'DNS' %></th>
-          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
         </tr>
         <tr>
           <th><%= f.label :interface, 'Interface' %></th>
