@@ -1,31 +1,33 @@
-<h1>Edycja stref</h1>
+<div class="zones-partial">
+  <h1>Edycja stref</h1>
 
-<div class="command-buttons">
-  <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
-  <a class="button" data-action="edit"><img src="/assets/edit-icon.png"/></a>
-  <a class="button" data-action="delete"><img src="/assets/delete-icon.png"/></a>
-</div>
+  <div class="command-buttons">
+    <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
+    <a class="button" data-action="edit"><img src="/assets/edit-icon.png"/></a>
+    <a class="button" data-action="delete"><img src="/assets/delete-icon.png"/></a>
+  </div>
 
-<table id="add-destination" class="grid">
-  <thead>
-    <tr> 
-      <th> Nazwa strefy </th>
-      <th> Typ strefy </th>
-      <th> Metoda adresacji </th>
-      <th> Ip </th>
-      <th> Maska </th>
-      <th> Gateway </th>
-      <th> DNS </th>
-      <th> Interface </th>
-    </tr>
-  </thead>
-  <tbody>
+  <table id="add-destination" class="grid">
+    <thead>
+      <tr> 
+        <th> Nazwa strefy </th>
+        <th> Typ strefy </th>
+        <th> Metoda adresacji </th>
+        <th> Ip </th>
+        <th> Maska </th>
+        <th> Gateway </th>
+        <th> DNS </th>
+        <th> Interface </th>
+      </tr>
+    </thead>
+    <tbody>
     <%= render @zones || capture do %>
       <tr id="no-zones-message">
-        <td colspan="8">Brak skonfigurowanych stref</td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <td colspan="8">Brak skonfigurowanych stref</td>
+    </tr>
+  <% end %>
+    </tbody>
+  </table>
 
-<%= render 'form' %>
+  <%= render 'form' %>
+</div>

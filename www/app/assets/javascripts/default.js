@@ -1,6 +1,17 @@
 $(function() {
-	// tworzymy przyciski na stronie
-	$('.button').button();
+  var repeatableInitialization = function ( context ) {
+    // tworzymy przyciski na stronie
+    $('.button', context).button();
+    // style dla tabelek
+    $("table.grid", context).styleTable();
+    if (window.dialog) window.dialog.remove();
+    window.dialog = $('div#add-form').dialog({
+      autoOpen: false,
+      modal: true,
+      width: '350px'
+    });
+
+  }
 	// tworzymy menu po lewej
 	$('#menu').sideMenu();
 	// chowamy komunikaty
@@ -10,6 +21,10 @@ $(function() {
 				.delay(hideInterval).fadeOut();
 		hideInterval += intervalStep;
 	})
-  // style dla tabelek
-  $("table.grid").styleTable();
+  
+  // zakładki
+  $("div#tabs").tabs({
+    load: function(event, ui) { repeatableInitialization(ui.panel); }
+  });
+  repeatableInitialization(document);
 });

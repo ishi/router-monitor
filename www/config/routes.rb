@@ -8,12 +8,13 @@ RouterMonitor::Application.routes.draw do
     end
   end
 
+  get '/wizard' => 'wizard#index'
   namespace :wizard do
       get "/zones" => "zones#index"
       post "/zones" => "zones#update"
       delete "/zones" => "zones#delete"
-      root :to => 'zones#index'
   end
+
 
   scope "/statistics" do
   	resources :statistic_values, :path => "values" do
@@ -21,10 +22,10 @@ RouterMonitor::Application.routes.draw do
   	   put "/activate" => 'statistic_values#activate', :as => :activate
   	  end
   	end
-  
-  	match '/' => 'statistics#index', :as => :statistics
-  	match '/generate' => 'statistics#generate', :as => :statistics_generate
-  	match '/log' => 'statistics#log', :as => :statistics_log
+    
+  	get '/' => 'statistics#index', :as => :statistics
+  	get '/generate' => 'statistics#generate', :as => :statistics_generate
+  	get '/log' => 'statistics#log', :as => :statistics_log
   end
 
 

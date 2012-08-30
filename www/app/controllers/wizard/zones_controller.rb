@@ -1,7 +1,11 @@
 # encoding: utf-8
 class Wizard::ZonesController < ApplicationController
+
   def index
     @zones = Zone.all
+    if request.xhr?
+      render :layout => false
+    end
   end
 
   def update
