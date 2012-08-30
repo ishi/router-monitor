@@ -26,7 +26,6 @@
 
       $this.find("th").addClass("ui-state-default");
       $this.find("td").addClass("ui-widget-content");
-      $this.find("tr:last-child").addClass("last-child");
     });
   };
 })(jQuery);

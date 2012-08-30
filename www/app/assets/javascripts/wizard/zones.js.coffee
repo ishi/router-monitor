@@ -27,12 +27,10 @@ $(document).ready ->
     $row = $('table#add-destination .ui-state-hover:first').parent()
     zone = $row.data 'zone'
     jQuery.ajax('/wizard/zones', 
-      { 
+      {
         type: 'DELETE', 
-        data: { 
-          zone: { 
-            name: zone.name, 
-            type: zone.type}}})
+        data: { zone: { name: zone.name, type: zone.type } }
+      })
 
   $('select#zone_method').on 'change keyup', ->
     if $(this).val() == 'DHCP'
@@ -41,3 +39,14 @@ $(document).ready ->
       $('input[data-disable-on*="method-dhcp"]').prop('readonly', false)
       if $('#zone_type', form).val() != 'WAN'
         $('input[data-disable-on*="method-static-lan"]').prop('readonly', true)
+
+
+  $('form#new_zone').on 'submit', ->
+    int = $('select#zone_interface').val()
+    $row = $('table#add-destination .ui-state-hover:first').parent()
+    $rows = $('table#add-destination tr').not($row.get())
+    for curr in $rows
+      continue if !$(curr).data('zone')
+      if $(curr).data('zone').interface is int
+        return confirm('Wybrany interfejs jest powiązany z inną strefą. Czy przenieść interfejs do tej strefy?')
+       

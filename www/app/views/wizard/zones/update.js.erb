@@ -9,8 +9,18 @@
   var new_row = $('<%= escape_javascript render(@zone) %>');
   new_row.find('td').addClass("ui-widget-content");
   $('div#add-form .error').remove();
+  // dla stref z wybranym interfejsem usuwamo go z nich
+  <% if !@zone.interface.blank? %>
+    var $int = $('table#add-destination tr[data-zone]').filter(function() {
+      return $(this).data('zone').interface == "<%= @zone.interface %>";
+    });
+    if ($int.length) {
+      $int.data('zone').interface = '';
+      $int.find('td:last').text('');
+    }
+  <% end %>
+  // jeśli ustawiony old_name to znaczy że edycja i w takim wypadku podmieniamy zawartość
   var $old = $('table#add-destination tr[data-zone*="\"name\":\"<%= @zone.old_name %>\""]')
-  console.log($old)
   if ($old.length) {
     $old.replaceWith(new_row)
   } else {

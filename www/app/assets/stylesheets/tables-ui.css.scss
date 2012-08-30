@@ -14,6 +14,7 @@ table.ui-styled-table td.ui-state-hover {
 
 /* initally remove bottom border for all cells */
 table.ui-styled-table th, table.ui-styled-table td { border-bottom-width: 0px !important; }
+table.ui-styled-table td.ui-state-hover { border-bottom-width: 1px !important; }
 
 /* hovered-row cells should show bottom border (will be highlighted) */
 table.ui-styled-table tbody tr:hover th,
@@ -27,8 +28,8 @@ table.ui-styled-table tbody tr:hover + tr td
 
 /* last-row cells should always show bottom border (not necessarily highlighted if not hovered) */
 /* IE7, IE8: selector dependent on CSS classes because of no support for :last-child */
-table.ui-styled-table tbody tr.last-child th,
-table.ui-styled-table tbody tr.last-child td
+table.ui-styled-table tbody tr:last-child th,
+table.ui-styled-table tbody tr:last-child td
 { border-bottom-width: 1px !important; }
 
 /* last-row cells should always show bottom border (not necessarily highlighted if not hovered) */
