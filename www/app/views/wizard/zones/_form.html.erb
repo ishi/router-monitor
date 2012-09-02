@@ -17,20 +17,20 @@
           <td><%= f.select(:method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method'}) %></td>
         </tr>
         <tr>
-          <th><%= f.label :ip, 'IP' %></th>
-          <td><%= f.text_field :ip, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <th><%= f.label :address, 'IP' %></th>
+          <td><%= f.text_field :address, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
-          <th><%= f.label :mask, 'Maska' %></th>
-          <td><%= f.text_field :mask, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <th><%= f.label :netmask, 'Maska' %></th>
+          <td><%= f.text_field :netmask, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
         </tr>
         <tr>
           <th><%= f.label :gateway, 'Gateway' %></th>
           <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
         </tr>
         <tr>
-          <th><%= f.label :dns, 'DNS' %></th>
-          <td><%= f.text_field :dns, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
+          <th><%= f.label :dns_nameservers, 'DNS' %></th>
+          <td><%= f.text_field :dns_nameservers, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
         </tr>
         <tr>
           <th><%= f.label :interface, 'Interface' %></th>

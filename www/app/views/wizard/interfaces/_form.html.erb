@@ -1,0 +1,35 @@
+<div id="add-form">
+  <div>
+    <% @empty = Interface.new %>
+    <%= form_for @empty, :url => wizard_interfaces_path, :remote => true do |f| %>
+      <table>
+        <tr>
+          <th><%= f.label :name, 'Nazwa interfejsu' %></th>
+          <td><%= f.text_field :name, :readonly => true %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :method, 'Metoda adresacji' %></th>
+          <td><%= f.select(:method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method'}) %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :address, 'IP' %></th>
+          <td><%= f.text_field :address, :'data-disable-on' => 'method-dhcp' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :netmask, 'Maska' %></th>
+          <td><%= f.text_field :netmask, :'data-disable-on' => 'method-dhcp' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :gateway, 'Gateway' %></th>
+          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp method-static-lan' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :dns_nameservers, 'DNS' %></th>
+          <td><%= f.text_field :dns_nameservers, :'data-disable-on' => 'method-dhcp method-static-lan' %></td>
+        </tr>
+      </table>
+
+      <%= submit_tag %>
+    <% end %>
+  </div>
+</div>

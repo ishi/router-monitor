@@ -1,12 +1,12 @@
-class Zone
+class Interface
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  Interfaces_path='/app/etc/interfaces.test'
   @persisted = false
 
-  attr_accessor :name, :old_name, :type, :method, :address, :netmask, :gateway, :dns_nameservers, :interface
+  attr_accessor :name, :type, :method, :address, :netmask, :gateway, 
+    :dns_nameservers, :interface, :vlan_raw_device
   validates :name, :presence => { :message => 'Podaj nazwe strefy' }
   validates :address, :presence => { :message => 'Podaj IP dla strefy' }, :unless => :method_dhcp?
   validates :netmask, 
@@ -26,10 +26,6 @@ class Zone
     attributes.each do |name, value|
       send("#{name}=", value)
     end
-  end
-
-  def old_name
-    @old_name || name
   end
 
   def method
@@ -81,18 +77,15 @@ class Zone
 
   class << self
     def all
-      @zones ||= lambda {
+      @interfaces ||= lambda {
         interfaces = INTERFACES::Reader.new.parse
 
-        interfaces.select {|entry| entry[:name] =~ /-/}.map! do |entry|
-          (entry[:name], entry[:type]) = entry[:name].gsub(/_/, ' ').split /-/
-          Zone.new entry
-        end
+        interfaces.select {|entry| entry[:name] !~ /-/} .map! {|entry| Interface.new entry }
       }.call
     end
 
     def interfaces
-      @interfaces ||= `ip l | grep -ve '^\s' | cut -d' ' -f 2 |  tr ':\n' ' '`.split(/\s+/)
+      @interfaces ||= [''] + `ip l | grep -ve '^\s' | cut -d' ' -f 2 |  tr ':\n' ' '`.split(/\s+/)
     end
   end
 end

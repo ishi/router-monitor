@@ -1,0 +1,31 @@
+<% if !request.xhr? %>
+  <h1>Edycja stref</h1>
+<% end  %>
+
+<div class="command-buttons">
+  <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
+  <a class="button" data-action="edit"><img src="/assets/edit-icon.png"/></a>
+  <a class="button" data-action="delete"><img src="/assets/delete-icon.png"/></a>
+</div>
+
+<table id="add-destination" class="grid">
+  <thead>
+    <tr> 
+      <th> Nazwa strefy </th>
+      <th> Metoda adresacji </th>
+      <th> Ip </th>
+      <th> Maska </th>
+      <th> Gateway </th>
+      <th> DNS </th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= render(@interfaces) || capture do %>
+    <tr id="no-objects-message">
+    <td colspan="8">Brak skonfigurowanych interfejsów</td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= render 'form' %>

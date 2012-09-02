@@ -10,9 +10,12 @@ RouterMonitor::Application.routes.draw do
 
   get '/wizard' => 'wizard#index'
   namespace :wizard do
-      get "/zones" => "zones#index"
-      post "/zones" => "zones#update"
-      delete "/zones" => "zones#delete"
+    get "/zones" => "zones#index"
+    post "/zones" => "zones#update"
+    delete "/zones" => "zones#delete"
+    get "/interfaces" => "interfaces#index"
+    post "/interfaces" => "interfaces#update"
+    delete "/interfaces" => "interfaces#delete"
   end
 
 

@@ -11,17 +11,18 @@
       width: 150px;
     }
   }
+}
 
-  div#add-form {
-    display: none;
+div#add-form {
+  display: none;
 
-    th {
-      text-align: right;
-      padding-right: 10px;
-    }
+  th {
+    text-align: right;
+    padding-right: 10px;
+  }
 
-    input[readonly] {
-      background-color: #EEE;
-    }
+  input[readonly] {
+    background-color: #EEE
+    ;
   }
 }

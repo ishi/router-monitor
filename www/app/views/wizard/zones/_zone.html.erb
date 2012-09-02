@@ -1,11 +1,11 @@
-<tr data-zone='{"name":"<%= zone.name %>", "type":"<%= zone.type %>", "method":"<%= zone.method %>", "ip":"<%= zone.ip %>", "mask":"<%= zone.mask %>", "gateway":"<%= zone.gateway %>", "dns":"<%= zone.dns %>", "interface":"<%= zone.interface %>"}' >
+<tr data-zone='{"name":"<%= zone.name %>", "type":"<%= zone.type %>", "method":"<%= zone.method %>", "address":"<%= zone.address %>", "netmask":"<%= zone.netmask %>", "gateway":"<%= zone.gateway %>", "dns_nameservers":"<%= zone.dns_nameservers %>", "interface":"<%= zone.interface %>"}' >
 
   <td><%= zone.name %></td>
   <td><%= zone.type %></td>
   <td><%= zone.method %></td>
-  <td><%= zone.ip %></td>
-  <td><%= zone.mask %></td>
+  <td><%= zone.address %></td>
+  <td><%= zone.netmask %></td>
   <td><%= zone.gateway %></td>
-  <td><%= zone.dns %></td>
+  <td><%= zone.dns_nameservers %></td>
   <td><%= zone.interface %></td>
 </tr>

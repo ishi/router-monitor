@@ -1,5 +1,7 @@
 <div class="zones-partial">
-  <h1>Edycja stref</h1>
+  <% if !request.xhr? %>
+    <h1>Edycja stref</h1>
+  <% end  %>
 
   <div class="command-buttons">
     <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
@@ -21,11 +23,11 @@
       </tr>
     </thead>
     <tbody>
-    <%= render @zones || capture do %>
+    <%= render(@zones) || capture do %>
       <tr id="no-zones-message">
-      <td colspan="8">Brak skonfigurowanych stref</td>
-    </tr>
-  <% end %>
+        <td colspan="8">Brak skonfigurowanych stref</td>
+      </tr>
+    <% end %>
     </tbody>
   </table>
 
