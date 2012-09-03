@@ -33,21 +33,20 @@ module INTERFACES
       delete = false
       get_file_content.delete_if do | line |
         delete &= !stanza_line?(line)
-      delete |= line =~ pattern
+        delete |= line =~ pattern
       end
     end
 
     def add_definition params
       return false if is_blank?(params[:name]) || is_blank?(params[:method])
-      params[:method].downcase!
       content = get_file_content
       content << "auto #{params[:name]}\n"
-      content << "iface #{params[:name]} inet #{params[:method]}\n"
-      content << "vlan-raw-device #{params[:vlan_raw_device]}" unless is_blank? params[:vlan_raw_device]
-      content << "address #{params[:address]}\n" unless is_blank? params[:address]
-      content << "netmask #{params[:netmask]}\n" unless is_blank? params[:netmask]
-      content << "gateway #{params[:gateway]}\n" unless is_blank? params[:gateway]
-      content << "dns-nameservers #{params[:dns_nameservers]}\n" unless is_blank? params[:dns_nameservers]
+      content << "iface #{params[:name]} inet #{params[:method].downcase}\n"
+      content << "\tvlan-raw-device #{params[:vlan_raw_device]}" unless is_blank? params[:vlan_raw_device]
+      content << "\taddress #{params[:address]}\n" unless is_blank? params[:address]
+      content << "\tnetmask #{params[:netmask]}\n" unless is_blank? params[:netmask]
+      content << "\tgateway #{params[:gateway]}\n" unless is_blank? params[:gateway]
+      content << "\tdns-nameservers #{params[:dns_nameservers]}\n" unless is_blank? params[:dns_nameservers]
       content << "\n"
       true
     end
@@ -65,6 +64,7 @@ module INTERFACES
     def put_file_content(content)
       File.open(Interfaces_path, 'w') do |f|
         f.puts content
+        true
       end
     end
 

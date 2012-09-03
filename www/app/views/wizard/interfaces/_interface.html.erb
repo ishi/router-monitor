@@ -1,9 +1,5 @@
-<tr data-object='{"name":"<%= interface.name %>", "method":"<%= interface.method %>", "address":"<%= interface.address %>", "netmask":"<%= interface.netmask %>", "gateway":"<%= interface.gateway %>", "dns_nameservers":"<%= interface.dns_nameservers %>"}' >
-  
+<tr data-object='<%= interface.to_json %>' >
+
   <td><%= interface.name %></td>
   <td><%= interface.method %></td>
-  <td><%= interface.address %></td>
-  <td><%= interface.netmask %></td>
-  <td><%= interface.gateway %></td>
-  <td><%= interface.dns_nameservers %></td>
 </tr>

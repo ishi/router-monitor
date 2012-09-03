@@ -11,20 +11,22 @@
   $('div#add-form .error').remove();
   // dla stref z wybranym interfejsem usuwamo go z nich
   <% if !@zone.interface.blank? %>
-    var $int = $('table#add-destination tr[data-zone]').filter(function() {
-      return $(this).data('zone').interface == "<%= @zone.interface %>";
+    var $int = $('div.zone table#add-destination tr[data-object]').filter(function() {
+      return $(this).data('object').interface == "<%= @zone.interface %>";
     });
     if ($int.length) {
-      $int.data('zone').interface = '';
+      $int.data('object').interface = '';
       $int.find('td:last').text('');
     }
   <% end %>
   // jeśli ustawiony old_name to znaczy że edycja i w takim wypadku podmieniamy zawartość
-  var $old = $('table#add-destination tr[data-zone*="\"name\":\"<%= @zone.old_name %>\""]')
+  var $old = $('div.zone table#add-destination tr[data-object]').filter(function () {
+    return $(this).data('object').name == '<%= @zone.old_name %>'
+  })
   if ($old.length) {
     $old.replaceWith(new_row)
   } else {
-    $('table#add-destination').append(new_row);
+    $('div.zone table#add-destination').append(new_row);
   }
   $('div#add-form').dialog('close');
 <% end %>

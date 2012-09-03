@@ -34,7 +34,7 @@
         </tr>
         <tr>
           <th><%= f.label :interface, 'Interface' %></th>
-          <td><%= f.select(:interface, options_for_select(Zone.interfaces), {}, {:class => 'interface'}) %></td>
+          <td><%= f.select(:interface, options_for_select(Interface.all.map(&:name)), {}, {:class => 'interface'}) %></td>
         </tr>
       </table>
 

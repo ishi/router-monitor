@@ -59,8 +59,9 @@ module INTERFACES
       params = {:method => $2.upcase, :name => $1}
 
       while not (file_lines.empty? || stanza_line?(file_lines[0])) do
-        next unless (line = file_lines.shift) =~ /^\s*([^#]\S*)\s+(.+)\s*$/
-        params[:"#{$1.gsub(/-/, '_')}"] = $2 unless $1.nil? || $1.empty?
+        next unless file_lines.shift =~ /^\s*([^#]\S*)\s+(.+)\s*$/
+        value = $2
+        params[:"#{$1.gsub(/-/, '_')}"] = value unless $1.nil? || $1.empty?
       end
 
       find_or_create_interface interfaces, params

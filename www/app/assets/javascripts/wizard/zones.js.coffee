@@ -5,32 +5,38 @@ $(document).ready ->
     width: '350px'
   )
 
-
-  $(document).on 'click', 'a[data-action="add"]', ->
-    form = $('div#add-form')
+  clearform = (form, type) ->
     form.find('table input').val('')
     form.find('table select').val('')
-    $('div#add-form').dialog('open')
-    $('#zone_old_name', form).val('')
+    $('#' + type + '_old_name', form).val('')
 
-  $(document).on 'click', 'a[data-action="edit"], ', ->
-    $row = $('table#add-destination .ui-state-hover:first').parent()
-    return unless $row.length
-    zone = $row.data 'zone'
+  $(document).on 'click', 'a[data-action="add"]', ->
+    type = $(this).parent().data('type')
     form = $('div#add-form')
-    $('#zone_old_name', form).val(zone.name)
-    for type, value of zone
-      $('#zone_' + type, form).val(value)
-    $('select#zone_method').change()
+    clearform form, type
+    $('div#add-form').dialog('open')
+
+  $(document).on 'click', 'a[data-action="edit"]', ->
+    type = $(this).parent().data('type')
+    $row = $(this).parents('div.partial:first').find('table#add-destination .ui-state-hover:first').parent()
+    return unless $row.length
+    object = $row.data 'object'
+    form = $('div#add-form')
+    clearform form, type
+    $('#' + type + '_old_name', form).val(object.name)
+    for property, value of object
+      $('#' + type + '_' + property, form).val(value)
+    $('select#' + type + '_method').change()
     $('div#add-form').dialog('open')
 
   $(document).on 'click', 'a[data-action="delete"]', ->
+    type = $(this).parent().data('type')
     $row = $('table#add-destination .ui-state-hover:first').parent()
-    zone = $row.data 'zone'
-    jQuery.ajax('/wizard/zones', 
+    object = $row.data 'object'
+    jQuery.ajax('/wizard/' + type + 's', 
       {
         type: 'DELETE', 
-        data: { zone: { name: zone.name, type: zone.type, interface: zone.interface } }
+        data: ((t, o) -> d = {}; d[t] = o; d)(type, object)
       })
 
   $(document).on 'change keyup', 'select#zone_method', ->

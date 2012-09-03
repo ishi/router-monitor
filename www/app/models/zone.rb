@@ -3,11 +3,12 @@ class Zone
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  Interfaces_path='/app/etc/interfaces.test'
   @persisted = false
 
   attr_accessor :name, :old_name, :type, :method, :address, :netmask, :gateway, :dns_nameservers, :interface
-  validates :name, :presence => { :message => 'Podaj nazwe strefy' }
+  validates :name,
+    :presence => { :message => 'Podaj nazwe strefy' }, 
+    :format => { :without => /-/, :message => 'Nazwa nie moze zawierac znakow [-]' }
   validates :address, :presence => { :message => 'Podaj IP dla strefy' }, :unless => :method_dhcp?
   validates :netmask, 
     :presence => { :message => 'Podaj maske dla strefy' }, 
@@ -32,8 +33,12 @@ class Zone
     @old_name || name
   end
 
+  def method=(method)
+    @method = method.upcase
+  end
+
   def method
-    @method ||= 'DHCP'
+    @method
   end
 
   def persisted?
@@ -41,25 +46,17 @@ class Zone
   end
 
   def save
+    return false unless valid?
     writer = INTERFACES::Writer.new
     writer.remove_definition old_name
-    writer.save_interface({ 
-      name: zone_name_to_save,
-      old_name: zone_name_to_save(old: true),
-      method: method,
-      interface: interface, 
-      address: address,
-      netmask: netmask,
-      gateway: gateway,
-      dns_nameservers: dns_nameservers
-       })
+    writer.save_interface to_hash.merge({ name: zone_name_to_save, old_name: zone_name_to_save(old: true)})
   end
 
   def delete
-    writer = INTERFACES::WRITER.new
-    writer.remove_interfacer({
-      name: zone_name_to_save, 
-      interface: initialize}) unless zone_name_to_save.blank?
+    writer = INTERFACES::Writer.new
+    writer.remove_interface({
+      name: zone_name_to_save,
+      interface: interface}) unless zone_name_to_save.blank?
   end
 
   def method_dhcp?
@@ -70,12 +67,28 @@ class Zone
     'STATIC' == method && 'WAN' == type
   end
 
+  def to_hash
+    params = {
+      name: name,
+      type: type,
+      method: method,
+      interface: interface
+    }
+    params[:address] = address unless method_dhcp?
+    params[:netmask] = netmask unless method_dhcp?
+    params[:gateway] = gateway unless method_dhcp?
+    params[:dns_nameservers] = dns_nameservers unless method_dhcp?
+    params
+  end
+
   private
 
   def zone_name_to_save(params = {})
     name_to_save = []
     name_to_save << (params[:old] ? old_name : name).gsub(/ /, '_')
-    name_to_save << "-#{type}" unless type.blank?
+    name_to_save << "-" unless type.blank?
+    name_to_save << type unless type.blank? || params[:old]
+    name_to_save << ".*" if params[:old]
     name_to_save.join
   end
 
