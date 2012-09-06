@@ -1,0 +1,17 @@
+var form = $('div[data-crud-form]');
+$('.error', form).remove();
+<% if @interface.errors.any? %>
+  var errors = <%= raw @interface.errors.to_json %>;
+  for (var field in errors) {
+    $('#interface' + field, form).parents('tr:first').before('<tr class="error"><td colspan="2">' + errors[field] + '</td></tr>');
+  }
+<% else %>
+    var new_row = $('<%= escape_javascript render(:partial => 'interface', :object => @interface) %>');
+  new_row.find('td').addClass("ui-widget-content");
+  if ($old.length) {
+    $old.replaceWith(new_row)
+  } else {
+    $('div.zone table#add-destination').append(new_row);
+  }
+  form.dialog('close');
+<% end %>

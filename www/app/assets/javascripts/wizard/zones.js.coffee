@@ -1,9 +1,5 @@
 $(document).ready -> 
-  window.dialog = $('div#add-form').dialog(
-    autoOpen: false
-    modal: true
-    width: '350px'
-  )
+  initializeDialog( $('div[data-crud-form]') )
 
   clearform = (form, type) ->
     form.find('table input').val('')
@@ -12,22 +8,22 @@ $(document).ready ->
 
   $(document).on 'click', 'a[data-action="add"]', ->
     type = $(this).parent().data('type')
-    form = $('div#add-form')
+    form = $('div[data-crud-form~="add"]')
     clearform form, type
-    $('div#add-form').dialog('open')
+    form.dialog('open')
 
   $(document).on 'click', 'a[data-action="edit"]', ->
     type = $(this).parent().data('type')
     $row = $(this).parents('div.partial:first').find('table#add-destination .ui-state-hover:first').parent()
     return unless $row.length
     object = $row.data 'object'
-    form = $('div#add-form')
+    form = $('div[data-crud-form~="edit"]')
     clearform form, type
     $('#' + type + '_old_name', form).val(object.name)
     for property, value of object
       $('#' + type + '_' + property, form).val(value)
     $('select#' + type + '_method').change()
-    $('div#add-form').dialog('open')
+    form.dialog('open')
 
   $(document).on 'click', 'a[data-action="delete"]', ->
     type = $(this).parent().data('type')
@@ -43,7 +39,7 @@ $(document).ready ->
     if $(this).val() == 'DHCP'
       $('input[data-disable-on*="method-dhcp"]').prop('readonly', true)
     else
-      form = $('div#add-form')
+      form = $(this).parents('div[data-crud-form]:first')
       $('input[data-disable-on*="method-dhcp"]').prop('readonly', false)
       if $('#zone_type', form).val() != 'WAN'
         $('input[data-disable-on*="method-static-lan"]').prop('readonly', true)

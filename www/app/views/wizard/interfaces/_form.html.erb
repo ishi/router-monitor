@@ -1,19 +1,23 @@
-<div id="add-form">
-  <div>
-    <% @empty = Interface.new %>
-    <%= form_for @empty, :url => wizard_interfaces_path, :remote => true do |f| %>
-      <table>
-        <tr>
-          <th><%= f.label :name, 'Nazwa interfejsu' %></th>
-          <td><%= f.text_field :name, :readonly => true %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :method, 'Metoda adresacji' %></th>
-          <td><%= f.select(:method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method'}) %></td>
-        </tr>
-      </table>
-
-      <%= submit_tag %>
-    <% end %>
-  </div>
+<div id="crud-form-interface" class="crud-form" data-crud-form="add">
+  <table>
+    <tr>
+      <th><%= label_tag :type, 'Typ interfejsu' %></th>
+      <td><%= select_tag :type, options_for_select(['', 'BRIDGE', 'VLAN', 'BOUND', 'TUN', 'TAP']) %></td>
+    </tr>
+  </table>
+  <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'vlan', :model => Interface::Vlan.new} do %>
+    <%= hidden_field :interface, :name %>
+    <tr>
+      <th><%= label :interface, :id, 'Id vlanu' %></th>
+      <td><%= text_field :interface, :id, size: 4, maxlength: 4 %></td>
+    </tr>
+    <tr>
+      <th><%= label :interface, :method, 'Metoda adresacji' %></th>
+      <td><%= select :interface, :method, options_for_select(['', 'DHCP', 'STATIC']), {}, class: 'method' %></td>
+    </tr>
+    <tr>
+      <th><%= label :interface, :vlan_raw_device, 'Interface' %></th>
+      <td><%= select :interface, :vlan_raw_device, options_for_select(Interface::Base.find(type: [:INT]).map(&:name)) %></td>
+    </tr>
+  <% end %>
 </div>

@@ -1,4 +1,4 @@
-<div id="add-form">
+<div data-crud-form="add edit">
   <div>
     <% @empty_zone = Zone.new %>
     <%= form_for @empty_zone, :url => wizard_zones_path, :remote => true do |f| %>
@@ -34,7 +34,7 @@
         </tr>
         <tr>
           <th><%= f.label :interface, 'Interface' %></th>
-          <td><%= f.select(:interface, options_for_select(Interface.all.map(&:name)), {}, {:class => 'interface'}) %></td>
+          <td><%= f.select(:interface, options_for_select(Interface::Base.all.map(&:name)), {}, {:class => 'interface'}) %></td>
         </tr>
       </table>
 

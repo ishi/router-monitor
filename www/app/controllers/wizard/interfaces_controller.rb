@@ -2,15 +2,15 @@
 class Wizard::InterfacesController < ApplicationController
 
   def index
-    @interfaces = Interface.all
+    @interfaces = Interface::Base.all
     if request.xhr?
       render :layout => false
     end
   end
 
   def update
-    @zone = Interfaces.new(params[:interface])
-    @zone.save
+    @interface = Interface::Factory.create(params[:interface])
+    @interface.save
   end
 
   def delete

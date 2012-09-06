@@ -1,4 +1,4 @@
-.zones-partial {
+.interfaces-partial {
   table {
     width: 100%;
 
@@ -25,4 +25,8 @@ div[data-crud-form] {
     background-color: #EEE
     ;
   }
+}
+
+div.interface-form {
+  display: none;
 }
