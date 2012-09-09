@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-    <%= render(@zones) || capture do %>
+    <%= render(:partial => 'zone', :collection => @zones) || capture do %>
       <tr id="no-zones-message">
         <td colspan="8">Brak skonfigurowanych stref</td>
       </tr>

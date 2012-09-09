@@ -1,40 +1,39 @@
 <div data-crud-form="add edit">
   <div>
-    <% @empty_zone = Zone.new %>
-    <%= form_for @empty_zone, :url => wizard_zones_path, :remote => true do |f| %>
-      <%= f.hidden_field(:old_name) %>
+    <%= form_tag wizard_zones_path, :remote => true do %>
+      <%= hidden_field :zone, :old_name, :'data-crud-clean' => true %>
       <table>
         <tr>
-          <th><%= f.label :name, 'Nazwa strefy' %></th>
-          <td><%= f.text_field(:name) %></td>
+          <th><%= label :zone, :name, 'Nazwa strefy' %></th>
+          <td><%= text_field :zone, :name, :'data-crud-clean' => true %></td>
         </tr>
         <tr>
-          <th><%= f.label :type, 'Typ strefy' %></th>
-          <td><%= f.select(:type, options_for_select(['', 'WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type'}) %></td>
+          <th><%= label :zone, :type, 'Typ strefy' %></th>
+          <td><%= select :zone, :type, options_for_select(['', 'WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type', :'data-crud-clean' => true} %></td>
         </tr>
         <tr>
-          <th><%= f.label :method, 'Metoda adresacji' %></th>
-          <td><%= f.select(:method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method'}) %></td>
+          <th><%= label :zone, :method, 'Metoda adresacji' %></th>
+          <td><%= select :zone, :method, options_for_select(['DHCP', 'STATIC']), {}, {:class => 'method', :'data-crud-clean' => true} %></td>
         </tr>
         <tr>
-          <th><%= f.label :address, 'IP' %></th>
-          <td><%= f.text_field :address, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <th><%= label :zone, :address, 'IP' %></th>
+          <td><%= text_field :zone, :address, :'data-disable-on' => 'method-dhcp', :'data-crud-clean' => true %></td>
         </tr>
         <tr>
-          <th><%= f.label :netmask, 'Maska' %></th>
-          <td><%= f.text_field :netmask, :'data-disable-on' => 'method-dhcp', :readonly => @empty_zone.method_dhcp? %></td>
+          <th><%= label :zone, :netmask, 'Maska' %></th>
+          <td><%= text_field :zone, :netmask, :'data-disable-on' => 'method-dhcp', :'data-crud-clean' => true %></td>
         </tr>
         <tr>
-          <th><%= f.label :gateway, 'Gateway' %></th>
-          <td><%= f.text_field :gateway, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
+          <th><%= label :zone, :gateway, 'Gateway' %></th>
+          <td><%= text_field :zone, :gateway, :'data-disable-on' => 'method-dhcp method-static-lan', :'data-crud-clean' => true %></td>
         </tr>
         <tr>
-          <th><%= f.label :dns_nameservers, 'DNS' %></th>
-          <td><%= f.text_field :dns_nameservers, :'data-disable-on' => 'method-dhcp method-static-lan', :readonly => !@empty_zone.static_wan? %></td>
+          <th><%= label :zone, :dns_nameservers, 'DNS' %></th>
+          <td><%= text_field :zone, :dns_nameservers, :'data-disable-on' => 'method-dhcp method-static-lan', :'data-crud-clean' => true %></td>
         </tr>
         <tr>
-          <th><%= f.label :interface, 'Interface' %></th>
-          <td><%= f.select(:interface, options_for_select(Interface::Base.all.map(&:name)), {}, {:class => 'interface'}) %></td>
+          <th><%= label :zone, :interface, 'Interface' %></th>
+          <td><%= select :zone, :interface, options_for_select([''] + Interface::Base.all.map(&:name)), {}, {:class => 'interface', :'data-crud-clean' => true} %></td>
         </tr>
       </table>
 

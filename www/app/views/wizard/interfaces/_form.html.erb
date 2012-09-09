@@ -1,23 +1,40 @@
-<div id="crud-form-interface" class="crud-form" data-crud-form="add">
+<div id="crud-form-interface" class="crud-form" data-crud-form="add edit">
   <table>
     <tr>
       <th><%= label_tag :type, 'Typ interfejsu' %></th>
-      <td><%= select_tag :type, options_for_select(['', 'BRIDGE', 'VLAN', 'BOUND', 'TUN', 'TAP']) %></td>
+      <td><%= select_tag :type, options_for_select(['', 'BRIDGE', 'VLAN']), :'data-crud-clean' => true %></td>
     </tr>
   </table>
-  <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'vlan', :model => Interface::Vlan.new} do %>
-    <%= hidden_field :interface, :name %>
+  <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'vlan'} do %>
+    <%= hidden_field_tag 'interface[name]', 'vlan' %>
+    <%= hidden_field_tag 'interface[old_name]', 'vlan' %>
     <tr>
-      <th><%= label :interface, :id, 'Id vlanu' %></th>
-      <td><%= text_field :interface, :id, size: 4, maxlength: 4 %></td>
+      <th><%= label_tag 'interface[id]', 'Id vlanu' %></th>
+      <td><%= text_field_tag 'interface[id]', nil, :maxlength => 4, :size => 4, :'data-crud-clean' => true %></td>
     </tr>
     <tr>
-      <th><%= label :interface, :method, 'Metoda adresacji' %></th>
-      <td><%= select :interface, :method, options_for_select(['', 'DHCP', 'STATIC']), {}, class: 'method' %></td>
+      <th><%= label_tag 'interface[method]', 'Metoda adresacji' %></th>
+      <td><%= select_tag 'interface[method]', options_for_select(['', 'DHCP', 'STATIC']), class: 'method', :'data-crud-clean' => true %></td>
     </tr>
     <tr>
-      <th><%= label :interface, :vlan_raw_device, 'Interface' %></th>
-      <td><%= select :interface, :vlan_raw_device, options_for_select(Interface::Base.find(type: [:INT]).map(&:name)) %></td>
+      <th><%= label_tag 'interface[vlan_raw_device]', 'Interface' %></th>
+      <td><%= select_tag 'interface[vlan_raw_device]', options_for_select(Interface::Base.find(type: [:INT]).map(&:name)), :'data-crud-clean' => true %></td>
+    </tr>
+  <% end %>
+  <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'bridge'} do %>
+    <%= hidden_field_tag 'interface[name]', 'br' %>
+    <%= hidden_field_tag 'interface[old_name]', 'br' %>
+    <tr>
+      <th><%= label_tag 'interface[id]', 'Id bridga' %></th>
+      <td><%= text_field_tag 'interface[id]', nil, :maxlength => 4, :size => 4, :'data-crud-clean' => true %></td>
+    </tr>
+    <tr>
+      <th><%= label_tag 'interface[method]', 'Metoda adresacji' %></th>
+      <td><%= select_tag 'interface[method]', options_for_select(['', 'DHCP', 'STATIC']), class: 'method', :'data-crud-clean' => true %></td>
+    </tr>
+    <tr>
+      <th><%= label_tag 'interface[bridge_ports]', 'Interfejsy' %></th>
+      <td><%= text_field_tag 'interface[bridge_ports]', nil, :'data-crud-clean' => true %></td>
     </tr>
   <% end %>
 </div>

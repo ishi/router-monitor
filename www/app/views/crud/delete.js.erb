@@ -1,0 +1,3 @@
+$('div.<%= type %> table#add-destination tr[data-object]').filter(function () {
+  return $(this).data('object').old_name == "<%= model.old_name %>";
+}).remove()

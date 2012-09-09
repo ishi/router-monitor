@@ -1,5 +1,5 @@
 <div id="interface-form-<%= type %>" class="interface-form" data-close-on="dialog-open">
-  <%= form_for model, :as => :interface, :url => wizard_interfaces_path, :remote => true do |f| %>
+  <%= form_tag wizard_interfaces_path, :remote => true do -%>
     <table>
       <%= yield %>
     </table>

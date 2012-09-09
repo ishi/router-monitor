@@ -7,26 +7,40 @@ module INTERFACES
     end
 
     def save_interface params
-      remove_mapping params[:interface] unless is_blank? params[:interface]
-      remove_definition params[:old_name] and params.delete :old_name unless is_blank? params[:old_name]
+      remove_interface params
+      remove_interface params.merge({:name => params[:old_name]}) and params.delete :old_name unless is_blank? params[:old_name]
       add_mapping params
       add_definition params
       save
     end
 
     def remove_interface params
-      remove_mapping params[:interface] unless is_blank? params[:interface]
+      remove_mapping params[:name] unless is_blank? params[:name]
       remove_definition params[:name] unless is_blank? params[:name]
       save
     end
 
-    def remove_mapping interface
-      remove_stanza(/^\s*mapping\s+#{interface}\s*$/)
+    def remove_mapping name
+      remove_stanza_by_param(/^\s*map\s+#{name}\s*$/)
     end
 
     def remove_definition name
       remove_stanza(/^\s*iface\s+#{name}\s+/)
       remove_stanza(/^\s*auto\s+#{name}\s*$/)
+    end
+
+    def remove_stanza_by_param pattern
+      searching_for_stanza = false
+      stanza = nil
+      get_file_content.reverse_each do |line|
+        if line =~ pattern
+          searching_for_stanza = true
+        end
+        if searching_for_stanza and stanza_line? line
+          remove_stanza(/^#{line}$/)
+          break
+        end
+      end
     end
 
     def remove_stanza pattern
@@ -42,11 +56,10 @@ module INTERFACES
       content = get_file_content
       content << "auto #{params[:name]}\n"
       content << "iface #{params[:name]} inet #{params[:method].downcase}\n"
-      content << "\tvlan-raw-device #{params[:vlan_raw_device]}" unless is_blank? params[:vlan_raw_device]
-      content << "\taddress #{params[:address]}\n" unless is_blank? params[:address]
-      content << "\tnetmask #{params[:netmask]}\n" unless is_blank? params[:netmask]
-      content << "\tgateway #{params[:gateway]}\n" unless is_blank? params[:gateway]
-      content << "\tdns-nameservers #{params[:dns_nameservers]}\n" unless is_blank? params[:dns_nameservers]
+      to_remove = [:name, :old_name, :method]
+      params.reject{|key| to_remove.include? key }.each do |key, value|
+        content << "\t#{key} #{value}" unless is_blank? value
+      end
       content << "\n"
       true
     end

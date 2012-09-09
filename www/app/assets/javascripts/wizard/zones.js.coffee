@@ -2,9 +2,7 @@ $(document).ready ->
   initializeDialog( $('div[data-crud-form]') )
 
   clearform = (form, type) ->
-    form.find('table input').val('')
-    form.find('table select').val('')
-    $('#' + type + '_old_name', form).val('')
+    form.find('[data-crud-clean="true"]').val('')
 
   $(document).on 'click', 'a[data-action="add"]', ->
     type = $(this).parent().data('type')
@@ -19,15 +17,17 @@ $(document).ready ->
     object = $row.data 'object'
     form = $('div[data-crud-form~="edit"]')
     clearform form, type
-    $('#' + type + '_old_name', form).val(object.name)
+    $(form).trigger('crud:before-fill', object)
+    $('#' + type + '_old_name', form).val(object.old_name)
     for property, value of object
       $('#' + type + '_' + property, form).val(value)
-    $('select#' + type + '_method').change()
     form.dialog('open')
+    $(form).trigger('crud:after-fill', object)
+    $('select', form).change()
 
   $(document).on 'click', 'a[data-action="delete"]', ->
     type = $(this).parent().data('type')
-    $row = $('table#add-destination .ui-state-hover:first').parent()
+    $row = $('table#add-destination .ui-state-hover:first', $(this).parents('div.partial')).parent()
     object = $row.data 'object'
     jQuery.ajax('/wizard/' + type + 's', 
       {
@@ -35,7 +35,7 @@ $(document).ready ->
         data: ((t, o) -> d = {}; d[t] = o; d)(type, object)
       })
 
-  $(document).on 'change keyup', 'select#zone_method', ->
+  $(document).on 'change keyup', 'select#zone_method, select#zone_type', ->
     if $(this).val() == 'DHCP'
       $('input[data-disable-on*="method-dhcp"]').prop('readonly', true)
     else

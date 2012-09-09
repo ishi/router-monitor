@@ -2,25 +2,24 @@
 class Wizard::ZonesController < ApplicationController
 
   def index
-    @zones = Zone.all
+    @zones = Interface::Zone.all
     if request.xhr?
       render :layout => false
     end
   end
 
   def update
-    @zone = Zone.new(params[:zone])
+    @zone = Interface::Zone.new(params[:zone])
     @zone.save
+    render '/crud/update.js', :locals => { :type => :zone, :model => @zone }
   end
 
   def delete
-    @zone = Zone.new(params[:zone])
-    respond_to do |format|
-      if @zone.delete
-        format.js
-      else
-        format.js { render :inline => 'alert("Błąd podczas usuwania konfiguracji strefy")'}
-      end
+    @zone = Interface::Zone.new(params[:zone])
+    if @zone.delete
+      render '/crud/delete.js', :locals => { :type => :zone, :model => @zone }
+    else
+      render :inline => 'alert("Błąd podczas usuwania konfiguracji strefy")'
     end
   end
 end
