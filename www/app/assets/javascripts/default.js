@@ -2,24 +2,27 @@ var initializeDialog = function (element) {
   return element.dialog({
     autoOpen: false,
     modal: true,
-    width: '350px',
+    width: '430px',
     open: function (event, ui) {
       $('div.interface-form', this).hide()
     }
   });
 }
 
+var repeatableInitialization = function ( context ) {
+  // tworzymy przyciski na stronie
+  $('.button', context).each(function () {
+    $(this).button({ disabled: $(this).is("[disabled]") });
+  })
+  // style dla tabelek
+  $("table.grid", context).styleTable();
+
+  var newForms = initializeDialog( $('div[data-crud-form]', context) )
+  $('div[data-crud-form]').not( newForms ).dialog('destroy').remove();
+
+}
+
 $(function() {
-  var repeatableInitialization = function ( context ) {
-    // tworzymy przyciski na stronie
-    $('.button', context).button();
-    // style dla tabelek
-    $("table.grid", context).styleTable();
-
-    var newForms = initializeDialog( $('div[data-crud-form]', context) )
-    $('div[data-crud-form]').not( newForms ).dialog('destroy').remove();
-
-  }
   // tworzymy menu po lewej
   $('#menu').sideMenu();
   // chowamy komunikaty
@@ -30,9 +33,5 @@ $(function() {
     hideInterval += intervalStep;
   })
 
-  // zakładki
-  $("div#tabs").tabs({
-    load: function(event, ui) { repeatableInitialization(ui.panel); }
-  });
   repeatableInitialization(document);
 });

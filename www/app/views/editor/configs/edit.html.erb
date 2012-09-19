@@ -1,14 +1,41 @@
-<%= form_tag config_path(@type), :method => "put"  do -%>
-	<%= label_tag(:file, "Plik do edycji:") %>
-	<%= text_field_tag(:file, @file) %> 
-	<%= submit_tag("Otwórz") %>
-	<%= submit_tag("Zapisz") %>
-	<%= text_area_tag(:'conf-editor', @content) %>
-	
-<% end -%>
+<div class="partial editor">
+  <%= form_tag config_path(@type), :method => "put"  do -%>
+    <%= label_tag(:file, "Plik do edycji:") %>
+    <%= text_field_tag(:file, @file) %> 
+    <%= submit_tag("Otwórz") %>
+    <%= submit_tag("Zapisz") %>
+    <%= text_area_tag(:'conf-editor', @content, :cols => '100', :rows => 25) %>
 
-<script type="text/javascript">
-	$(function () {
-		$("#conf-editor").confeditor();
-	})
-</script>
+  <% end -%>
+
+    <!-- load require.js libraries -->
+    <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+    <!-- load the Aloha Editor core and some plugins -->
+    <script type="text/javascript">
+      var Aloha = window.Aloha || ( window.Aloha = {} );
+      var loc = location.href;
+      loc = loc.substring(0, loc.lastIndexOf('/'));
+      
+      Aloha.settings = {
+        bundles: { custom: '/assets/aloha-custom' },
+        locale: 'pl',
+        sidebar: { disabled: true },
+      };
+    </script>
+    <script src="http://cdn.aloha-editor.org/latest/lib/aloha.js"
+                                        data-aloha-plugins="common/ui,
+                                                            common/format,
+                                                            custom/nix-editor,
+                                                            common/highlighteditables">
+    </script>
+
+    <!-- load the Aloha Editor CSS styles -->
+    <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+
+  Aloha.ready( function() {
+    var $ = Aloha.jQuery;
+    $('#conf-editor').aloha();
+  });
+  </script>
+</div>

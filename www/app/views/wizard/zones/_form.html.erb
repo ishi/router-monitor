@@ -9,7 +9,7 @@
         </tr>
         <tr>
           <th><%= label :zone, :type, 'Typ strefy' %></th>
-          <td><%= select :zone, :type, options_for_select(['', 'WAN', 'DMZ', 'LAN', 'WIFI']), {}, {:class => 'type', :'data-crud-clean' => true} %></td>
+          <td><%= select :zone, :type, options_for_select(['LAN', 'WAN', 'DMZ', 'WIFI']), {}, {:class => 'type', :'data-crud-clean' => true} %></td>
         </tr>
         <tr>
           <th><%= label :zone, :method, 'Metoda adresacji' %></th>
@@ -34,6 +34,17 @@
         <tr>
           <th><%= label :zone, :interface, 'Interface' %></th>
           <td><%= select :zone, :interface, options_for_select([''] + Interface::Base.all.map(&:name)), {}, {:class => 'interface', :'data-crud-clean' => true} %></td>
+        </tr>
+        <tr>
+          <th colspan="2">Dodatkowe usługi</th>
+        </tr>
+        <tr>
+          <th><%= label :zone, :dhcp_service, 'DHCP' %></th>
+          <td>
+            <%= check_box :zone, :dhcp_service, :'data-disable-on' => 'method-dhcp', :'data-crud-clean' => true %>
+            <%= text_field :zone, :dhcp_lower_bound, :size => '12', :'data-disable-on' => 'method-dhcp', :'data-crud-clean' => true %> - 
+            <%= text_field :zone, :dhcp_upper_bound, :size => '12', :'data-disable-on' => 'method-dhcp', :'data-crud-clean' => true %>
+          </td>
         </tr>
       </table>
 

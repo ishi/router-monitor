@@ -2,7 +2,7 @@
 
 class Editor::ConfigsController < ApplicationController
   @@types = {
-    'interfaces' => '/etc/network/interfaces'
+    'interfaces' => '/app/etc/interfaces.test'
   }
   before_filter :set_params
   

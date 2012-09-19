@@ -2,7 +2,9 @@ $(document).ready ->
   initializeDialog( $('div[data-crud-form]') )
 
   clearform = (form, type) ->
-    form.find('[data-crud-clean="true"]').val('')
+    to_clean = form.find('[data-crud-clean="true"]')
+    to_clean.not('[type="checkbox"]').val("")
+    to_clean.filter('[type="checkbox"]').prop('checked', false)
 
   $(document).on 'click', 'a[data-action="add"]', ->
     type = $(this).parent().data('type')
@@ -18,9 +20,12 @@ $(document).ready ->
     form = $('div[data-crud-form~="edit"]')
     clearform form, type
     $(form).trigger('crud:before-fill', object)
-    $('#' + type + '_old_name', form).val(object.old_name)
     for property, value of object
-      $('#' + type + '_' + property, form).val(value)
+      input = $('[name="' + type + '\[' + property + '\]"]', form)
+      if input.is('[type="checkbox"]')
+        input.prop('checked', value)
+        continue
+      input.val(value)
     form.dialog('open')
     $(form).trigger('crud:after-fill', object)
     $('select', form).change()

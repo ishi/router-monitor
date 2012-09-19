@@ -18,20 +18,26 @@ $(function() {
 		enter: function () {
 			var $input = $(this);
 			var $li = $input.parent();
+      var next = $li.next().children('[contenteditable]:first')
+      if (next.length && next.val().trim() == '') {
+        next.focus()
+        return false;
+      }
 			var $new = createEmptyInput($input.data('interface-type'), $input.data('chain-type'));
 			$li.after($('<li></li>').html($new));
 			$new.focus();
 			var position = $li.index();
 			getLevelBoxList.call($li).each(function () {
 				
-				var $input = $('<li></li>').html(
+				var $newInput = $('<li></li>').html(
 					createEmptyInput($input.data('interface-type'), $(this).data('chain-type')))
-				$($(this).children()[position]).after($input);
+				$($(this).children()[position]).after($newInput);
 			});
 			return false;
 		},
-		backspace: function () {
+		backspace: function (event) {
 			var $input = $(this);
+      event.isImmediatePropagationStopped();
 			if (!$input.text()) {
 				var $li = $input.parent(),
 					$ul = $li.parent();
@@ -65,14 +71,14 @@ $(function() {
 					$li.parent().append($li);
 				}
 				$prev.children().first().focus();
-			}		
+			}
 		}
 	}
 	
 	$(document).on('keydown', 'div[contenteditable]', function(event) {
 		switch(event.keyCode) {
-			case 13: return handler.enter.call(this);
-			case 8: return handler.backspace.call(this); 
+			case 13: return handler.enter.call(this, event);
+			case 8: return handler.backspace.call(this, event); 
 		}
 	})
 	

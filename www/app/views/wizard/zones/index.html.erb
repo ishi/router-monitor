@@ -1,19 +1,19 @@
 <div class="partial zone">
   <% if !request.xhr? %>
-    <h1>Edycja stref</h1>
+    <h1>Edycja obszarów</h1>
   <% end  %>
 
   <div class="command-buttons" data-type="zone">
     <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
-    <a class="button" data-action="edit"><img src="/assets/edit-icon.png"/></a>
-    <a class="button" data-action="delete"><img src="/assets/delete-icon.png"/></a>
+    <a class="button" data-action="edit" disabled="disabled"><img src="/assets/edit-icon.png"/></a>
+    <a class="button" data-action="delete" disabled="disabled"><img src="/assets/delete-icon.png"/></a>
   </div>
 
   <table id="add-destination" class="grid">
     <thead>
       <tr> 
-        <th> Nazwa strefy </th>
-        <th> Typ strefy </th>
+        <th> Nazwa obszarów </th>
+        <th> Typ obszarów </th>
         <th> Metoda adresacji </th>
         <th> Ip </th>
         <th> Maska </th>
@@ -25,11 +25,16 @@
     <tbody>
     <%= render(:partial => 'zone', :collection => @zones) || capture do %>
       <tr id="no-zones-message">
-        <td colspan="8">Brak skonfigurowanych stref</td>
+        <td colspan="8">Brak skonfigurowanych obszarów</td>
       </tr>
     <% end %>
     </tbody>
   </table>
+
+  <div class='tabs-navigation'>
+    <a class="button" data-action="prev">&lt;&lt; Wstecz</a>
+    <a class="button right" href="<%= profile_change_path :panel %>">Zakończ</a>
+  </div>
 
   <%= render 'form' %>
 </div>

@@ -107,7 +107,7 @@ module CRON
 		Signal.trap("TERM") { EM.stop }
 
 		StatisticValue.active.each { |v| Cron.add v }
-		server = EM.start_server("127.0.0.1", 22222, Cron)
+		server = EM.start_server("127.0.0.1", 22223, Cron)
 	end
   Rails.logger.info 'Bye...'
 end

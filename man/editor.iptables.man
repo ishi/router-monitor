@@ -21,3 +21,32 @@ IPTABLES -A/I INPUT/OUTPUT/... ...komenda... -j NAZWA_LANCUCHA
 KOMENDY
 ------------------
 IPTABLES INPUT/OUTPUT/... 
+
+#na potrzeby dnsmasq
+#-------------------
+
+iptables -N RE
+iptables -A RE -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A RE -j DROP
+
+iptables -N NRE
+iptables -A NRE -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A NRE -j DROP
+
+iptables -A INPUT -j RE
+iptables -A OUTPUT -j NRE
+
+# lan -> wan
+iptables -A FORWARD -i $LAN -j NRE
+
+_______________________________________
+# wan -> lan
+iptables -A FORWARD -i $WAN -j RE
+# wan -> internet 
+iptables -A FORWARD -o $WAN -j NRE
+
+#NAT na wan
+iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+_______________________________________
+
+echo "1" > /proc/sys/net/ipv4/ip_forward

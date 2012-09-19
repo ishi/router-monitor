@@ -1,4 +1,13 @@
-<tr data-object='<%= interface.to_json %>' >
+<tr data-object='<%= interface.to_json %>' 
+    <%= raw ((interface.instance_of? Interface::Physical) ? 'data-disable-on-select' : 'data-enable-on-select') + '="div.interface [data-action=\'edit\'], div.interface [data-action=\'delete\']"' %>>
   <td><%= interface.name %></td>
-  <td><%= interface.method %></td>
+  <td>
+    <ul>
+    <% interface.params.each do |param, value| %>
+      <li>
+        <%= "#{param} = #{value}" %>
+      </li>
+    <% end -%>
+    </ul>
+  </td>
 </tr>

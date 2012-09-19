@@ -1,14 +1,6 @@
 RouterMonitor::Application.routes.draw do
   get "profile/change/:type" => 'profile#change', :as => :profile_change
 
-  namespace :editor, :as => '' do
-    resource :iptables, :only => [:show, :edit, :update]
-    resource :config, :only => [:show, :edit, :update] do
-      get "/(:type)" => 'configs#edit', :as => :edit
-    end
-  end
-
-  get '/wizard' => 'wizard#index'
   namespace :wizard do
     get "/zones" => "zones#index"
     post "/zones" => "zones#update"
@@ -17,7 +9,18 @@ RouterMonitor::Application.routes.draw do
     post "/interfaces" => "interfaces#update"
     delete "/interfaces" => "interfaces#delete"
   end
+  get '/wizard' => 'wizard#index'
 
+  namespace :panel do
+  end
+  get '/panel' => 'panel#index'
+
+  namespace :editor, :as => '' do
+    resource :iptables, :only => [:show, :edit, :update]
+    resource :config, :only => [:show, :edit, :update] do
+      get "/(:type)" => 'configs#edit', :as => :edit
+    end
+  end
 
   scope "/statistics" do
   	resources :statistic_values, :path => "values" do
@@ -27,7 +30,7 @@ RouterMonitor::Application.routes.draw do
   	end
     
   	get '/' => 'statistics#index', :as => :statistics
-  	get '/generate' => 'statistics#generate', :as => :statistics_generate
+  	post '/generate' => 'statistics#generate', :as => :statistics_generate
   	get '/log' => 'statistics#log', :as => :statistics_log
   end
 

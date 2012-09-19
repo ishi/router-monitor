@@ -5,15 +5,15 @@
 
   <div class="command-buttons" data-type="interface">
     <a class="button" data-action="add"><img src="/assets/add-icon.png"/></a>
-    <a class="button" data-action="edit"><img src="/assets/edit-icon.png"/></a>
-    <a class="button" data-action="delete"><img src="/assets/delete-icon.png"/></a>
+    <a class="button" data-action="edit" disabled="disabled"><img src="/assets/edit-icon.png"/></a>
+    <a class="button" data-action="delete" disabled="disabled"><img src="/assets/delete-icon.png"/></a>
   </div>
 
   <table id="add-destination" class="grid">
     <thead>
       <tr> 
         <th> Nazwa strefy </th>
-        <th> Metoda adresacji </th>
+        <th> Parametry interfejsu </th>
       </tr>
     </thead>
     <tbody>
@@ -24,6 +24,11 @@
   <% end %>
     </tbody>
   </table>
+
+  <div class='tabs-navigation'>
+    <a class="button" data-action="prev">&lt;&lt; Wstecz</a>
+    <a class="button" data-action="next">Dalej &gt;&gt;</a>
+  </div>
 
   <%= render 'form' %>
 </div>

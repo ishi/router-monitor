@@ -2,43 +2,37 @@
 # and how to activate them. For more information, see interfaces(5).
 
 # The loopback network interface
-mapping eth1
+
+#:Konfiguracja interfejsu eth1
+#=
+auto eth1
+iface eth1 inet dhcp
+#=/
+
+#:Konfiguracja strefy Siec_sasiad-LAN
+#=
+iface Siec_sasiad-LAN inet dhcp
+	bridge_ports eth0
+
+auto br1
+mapping br1
 	script /app/etc/zone-interface-mapping.sh
-	map Dom-LAN
+	map Siec_sasiad-LAN
+#=/
 
-auto Dom-LAN
-iface Dom-LAN inet static
-address 192.168.123.1
-netmask 255.255.255.0
-#network
-#broadcast
-#gateway 
-#dns-nameservers 
-#dns-search
-#hwaddress ether 00:01:02:a5:10:10
+#:Konfiguracja strefy Siec_dom-WAN
+#=
+iface Siec_dom-WAN inet static
+	vlan_raw_device eth4
+	address 192.168.123.73
+	netmask 255.255.255.0
+	gateway 192.168.123.1
+	dns_nameservers 8.8.8.8 8.8.4.4
+	up #dns
 
-auto Jarsat-WAN
-iface Jarsat-WAN inet static
-address 10.12.3.249
-netmask 255.255.255.0
-#network
-#broadcast
-gateway 10.12.3.249
-dns-nameservers 10.12.3.249
-#dns-search
-#hwaddress ether 00:01:02:a5:10:10
-
-mapping eth0
+auto vlan1
+mapping vlan1
 	script /app/etc/zone-interface-mapping.sh
-	map eth1-test-WAN
+	map Siec_dom-WAN
+#=/
 
-auto eth1-test-WAN
-iface eth1-test-WAN inet dhcp
-#address 
-#netmask 
-#network
-#broadcast
-#gateway 
-#dns-nameservers 
-#dns-search
-#hwaddress ether 00:01:02:a5:10:10

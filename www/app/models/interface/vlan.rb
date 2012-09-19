@@ -19,10 +19,4 @@ class Interface::Vlan < Interface::Base
   def to_hash
     super.merge({ :name => @name, :id => @id, :type => 'VLAN'})
   end
-
-  private
-
-  def self.allowed_interfaces
-    [:VLAN]
-  end
 end

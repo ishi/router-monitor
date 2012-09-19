@@ -105,6 +105,11 @@ table {
   }
 }
 
+.ui-button.ui-state-disabled {
+  opacity:0.4;
+  filter:alpha(opacity=40); /* For IE8 and earlier */
+}
+
 div.command-buttons {
   margin: 5px;
 
@@ -158,10 +163,6 @@ form .error {
   .button {
     &.action {
       float: left;
-    }
-    
-    &.less-important {
-      
     }
   }
 

@@ -18,10 +18,13 @@
 
       $this.on('click', 'tbody tr', function () {
         var $parent = $(this).parent();
-        $('.ui-state-hover', $parent).removeClass('ui-state-hover');
+        $('td.ui-state-hover', $parent).removeClass('ui-state-hover');
         $('tr', $parent).data('selected-row', false);
         $(this).children().addClass('ui-state-hover');
         $(this).data('selected-row', !$(this).data('selected-row'));
+
+        $($(this).data('disable-on-select')).button('disable').length
+        $($(this).data('enable-on-select')).button('enable');
       });
 
       $this.find("th").addClass("ui-state-default");

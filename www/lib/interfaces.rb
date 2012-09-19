@@ -5,6 +5,7 @@ module INTERFACES
     @file_content ||= lambda do
       content = File.readlines(Interfaces_path)
       content << "\n" unless content.last =~ /^\s*\n$/
+      content.map { |el| el.gsub!(/\s{2,}/, ' ') }
       content
     end.call
   end

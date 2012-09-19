@@ -1,5 +1,5 @@
-<tr data-object='<%= zone.to_json(:only => [:name]) %>' >
-
+<tr data-object='<%= zone.to_json(:only => [:name]) %>' 
+    <%= raw 'data-enable-on-select="div.zone [data-action=\'edit\'], div.zone [data-action=\'delete\']"' %>>
   <td><%= zone.name %></td>
   <td><%= zone.type %></td>
   <td><%= zone.method %></td>

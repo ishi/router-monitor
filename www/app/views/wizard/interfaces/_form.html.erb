@@ -7,30 +7,22 @@
   </table>
   <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'vlan'} do %>
     <%= hidden_field_tag 'interface[name]', 'vlan' %>
-    <%= hidden_field_tag 'interface[old_name]', 'vlan' %>
+    <%= hidden_field_tag 'interface[old_name]', 'vlan', :'data-crud-clean' => true %>
     <tr>
       <th><%= label_tag 'interface[id]', 'Id vlanu' %></th>
       <td><%= text_field_tag 'interface[id]', nil, :maxlength => 4, :size => 4, :'data-crud-clean' => true %></td>
     </tr>
     <tr>
-      <th><%= label_tag 'interface[method]', 'Metoda adresacji' %></th>
-      <td><%= select_tag 'interface[method]', options_for_select(['', 'DHCP', 'STATIC']), class: 'method', :'data-crud-clean' => true %></td>
-    </tr>
-    <tr>
       <th><%= label_tag 'interface[vlan_raw_device]', 'Interface' %></th>
-      <td><%= select_tag 'interface[vlan_raw_device]', options_for_select(Interface::Base.find(type: [:INT]).map(&:name)), :'data-crud-clean' => true %></td>
+      <td><%= select_tag 'interface[vlan_raw_device]', options_for_select(Interface::Base.find(type: [Interface::Physical]).map(&:name)), :'data-crud-clean' => true %></td>
     </tr>
   <% end %>
   <%= render :layout => 'interface_form_wrapper', :locals => {:type => 'bridge'} do %>
     <%= hidden_field_tag 'interface[name]', 'br' %>
-    <%= hidden_field_tag 'interface[old_name]', 'br' %>
+    <%= hidden_field_tag 'interface[old_name]', 'br', :'data-crud-clean' => true %>
     <tr>
       <th><%= label_tag 'interface[id]', 'Id bridga' %></th>
       <td><%= text_field_tag 'interface[id]', nil, :maxlength => 4, :size => 4, :'data-crud-clean' => true %></td>
-    </tr>
-    <tr>
-      <th><%= label_tag 'interface[method]', 'Metoda adresacji' %></th>
-      <td><%= select_tag 'interface[method]', options_for_select(['', 'DHCP', 'STATIC']), class: 'method', :'data-crud-clean' => true %></td>
     </tr>
     <tr>
       <th><%= label_tag 'interface[bridge_ports]', 'Interfejsy' %></th>

@@ -6,15 +6,17 @@ class Editor::IptablesController < ApplicationController
   end
 
   def edit
-    `#{File.join(Rails.root, '..', 'etc', 'fw', 'firewall')} gen_przeplyw` 
-    return if @importError = !$?.success?
+    #`#{File.join(Rails.root, '..', 'etc', 'fw', 'firewall')} gen_przeplyw` 
+    #return if @importError = !$?.success?
     
     @rules = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = Array.new } }
     Dir.foreach(conf_dir) do |filename|
       next if (File.directory?(filename) || (/[^.]\.[^.]/ =~ filename).nil?)
       
+      Rails.logger.debug "Otwieram plik #{File.join(conf_dir, filename)}"
       interface, chain = filename.split /\./
-      @rules[interface.to_sym][chain.to_sym] += (File.open(File.join(conf_dir, filename)).readlines.map { |v| v.strip })
+      @rules[interface.to_sym][chain.to_sym] += File.readlines(File.join(conf_dir, filename)).map { |v| v.strip }
+      Rails.logger.debug "Wczytalem wartosci #{@rules[interface.to_sym][chain.to_sym]}"
     end
   end
 

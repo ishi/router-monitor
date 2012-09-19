@@ -40,6 +40,10 @@
 
 		$ vim /app/www/init_env
 
+* Aby cron działał w środowisu developerskim wykonujemy
+
+    touch /app/www/development.env
+
 * Podpinamy skrypty startowe pod upstarta i uruchamiamy usługę
 
 		$ sudo ln /app/www/lib/init/router-* /etc/init/
